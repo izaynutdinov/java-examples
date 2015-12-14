@@ -1,1 +1,0 @@
-GWT wrapper for STOMP JS library. STOMP may be used over native Websocket or SockJS.
