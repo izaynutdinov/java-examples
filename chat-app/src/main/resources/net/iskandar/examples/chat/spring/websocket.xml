@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:ws="http://www.springframework.org/schema/websocket"
+       xmlns:int="http://www.springframework.org/schema/integration"       
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context-4.2.xsd
+                           http://www.springframework.org/schema/mvc
+                           http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+                           http://www.springframework.org/schema/jee
+                           http://www.springframework.org/schema/jee/spring-jee-4.2.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+                           http://www.springframework.org/schema/websocket
+                           http://www.springframework.org/schema/websocket/spring-websocket-4.2.xsd
+                           http://www.springframework.org/schema/integration
+                           http://www.springframework.org/schema/integration/spring-integration-4.2.xsd">
+
+	<context:annotation-config />
+
+	<ws:message-broker application-destination-prefix="/app">
+        <ws:stomp-endpoint path="/stomp">
+        </ws:stomp-endpoint>
+        <ws:simple-broker prefix="/chats" />
+    </ws:message-broker>
+
+	<bean id="messageReceiver" class="net.iskandar.examples.chat.app.websocket.MessageReceiver">
+
+	</bean>
+
+	<int:service-activator input-channel="chatChannel" ref="messageReceiver" 
+						   method="receiveMessage" />
+
+</beans>

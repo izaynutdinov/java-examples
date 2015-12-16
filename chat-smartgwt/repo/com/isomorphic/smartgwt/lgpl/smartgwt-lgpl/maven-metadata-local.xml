@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>com.isomorphic.smartgwt.lgpl</groupId>
+  <artifactId>smartgwt-lgpl</artifactId>
+  <versioning>
+    <release>5.1</release>
+    <versions>
+      <version>5.1</version>
+    </versions>
+    <lastUpdated>20151118131208</lastUpdated>
+  </versioning>
+</metadata>
