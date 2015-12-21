@@ -12,6 +12,7 @@ import javax.transaction.Transactional;
 
 import net.iskandar.examples.chat.app.Utils;
 import net.iskandar.examples.chat.app.client.to.ChatMessageTo;
+import net.iskandar.examples.chat.app.dao.DAO;
 import net.iskandar.examples.chat.app.domain.Chat;
 import net.iskandar.examples.chat.app.domain.ChatMessage;
 import net.iskandar.examples.chat.app.domain.ChatMessages;
@@ -27,15 +28,21 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.support.MessageBuilder;
 
-public class ChatServiceJpaImpl implements ChatService {
+public class ChatServiceImpl implements ChatService {
 
-	private static final Logger log = LogManager.getLogger(ChatServiceJpaImpl.class);
-	
-	@PersistenceContext
-	private EntityManager em;
-	
+	private static final Logger log = LogManager.getLogger(ChatServiceImpl.class);
+
+	private DAO dao;
 	private MessageChannel channel;
-	
+
+	public DAO getDao() {
+		return dao;
+	}
+
+	public void setDao(DAO dao) {
+		this.dao = dao;
+	}
+
 	public MessageChannel getChannel() {
 		return channel;
 	}
@@ -47,27 +54,17 @@ public class ChatServiceJpaImpl implements ChatService {
 	@Override
 	public User login(String login, String password) {
 		String passwordMd5 = DigestUtils.md2Hex(password);
-		Query q = em.createQuery("from User u where u.login=:login and u.passwordMd5=:passwordMd5");
-		q.setParameter("login", login);
-		q.setParameter("passwordMd5", passwordMd5);
-		q.setMaxResults(1);
-		List results = q.getResultList();
-		if(results.size() > 0)
-			return (User) results.get(0);
-		else
-			return null;
+		return dao.getUser(login, passwordMd5);
 	}
 
 	@Override
 	public User getUser(Integer userId) {
-		return em.find(User.class, userId);
+		return dao.getUser(userId);
 	}
 
 	@Override
 	public List<Chat> getChats(User user) {
-		Query q = em.createQuery("select cht from ChatUser cu left join cu.chat cht where cu.user=:user and cu.blocked=false");
-		q.setParameter("user", user);
-		return q.getResultList();
+		return dao.getChats(user);
 	}
 
 	@Override
@@ -76,9 +73,7 @@ public class ChatServiceJpaImpl implements ChatService {
 		if(chatUser == null){
 			throw new ChatServiceException("User " + user.getId() + " is not permitted to get members of chat " + chatId + "!");			
 		}
-		Query query = em.createQuery("select cht from ChatUser cu where cu.chat.id=:chatId");
-		query.setParameter("chatId", chatId);
-		return query.getResultList();		
+		return dao.getChatUsers(user, chatId);
 	}
 
 	@Override
@@ -88,16 +83,11 @@ public class ChatServiceJpaImpl implements ChatService {
 		if(chatUser != null){
 			try {
 				ChatMessages chatMessages = new ChatMessages(); 
-				Chat chat = (Chat) em.find(Chat.class, chatId);
+				Chat chat = dao.getChat(chatId); 
 				chatMessages.setChatId(chatId);
 				chatMessages.setLastMessageId(chat.getLastMessageId());
-
-				Query query = em.createQuery("from ChatMessage cm where cm.chatUser.chat.id=:chatId and cm.time>=:today order by cm.id");
-				query.setParameter("chatId", chatId);
-				Date today = getMinusDays(days);
-				log.debug("GETTING MESSAGES FOR DAY: " + today);
-				query.setParameter("today", today);
-				List<ChatMessage> messages = query.getResultList();
+				Date since = getMinusDays(days);
+				List<ChatMessage> messages = dao.getChatMessages(user, chatId, since);
 				for(ChatMessage message : messages){
 					if(message.getId().compareTo(chatMessages.getLastMessageId()) > 0){
 						chatMessages.setLastMessageId(message.getId());
@@ -105,10 +95,9 @@ public class ChatServiceJpaImpl implements ChatService {
 				}
 				chatMessages.setChatMessages(messages);
 				return chatMessages;
-
 			} catch(Throwable t){
-				t.printStackTrace();
-				throw new ChatServiceException(t.getMessage(), t);
+				log.error("Unexpected exception getting chat messages", t);
+				throw new ChatServiceException("Unexpected exception getting chat messages", t);
 			}
 		} else {
 			throw new ChatServiceException("User " + user.getId() + " is not permitted to get chat messages for chat " + chatId + "!");
@@ -129,10 +118,7 @@ public class ChatServiceJpaImpl implements ChatService {
 			if(chatUser == null)
 				throw new ChatServiceException("User " + user.getId() + " is not permitted to update chat messages for chat " + chatId + "!");
 		}
-		Query query = em.createQuery("from ChatMessage cm where cm.chatUser.chat.id in :chatIds and cm.id > :lastMessageId order by cm.id");
-		query.setParameter("chatIds", Arrays.asList(chatIds));
-		query.setParameter("lastMessageId", lastMessageId);
-		return query.getResultList();
+		return dao.updateChatMessages(user, chatIds, lastMessageId);
 	}
 
 	@Override
@@ -145,7 +131,7 @@ public class ChatServiceJpaImpl implements ChatService {
 			chatMessage.setChatUser(chatUser);
 			chatMessage.setTime(new Date());
 			chatMessage.setText(text);
-			em.persist(chatMessage);
+			dao.saveMessage(chatMessage);
 			Message<ChatMessageTo> message = MessageBuilder.withPayload(Utils.createChatMessageTo(chatMessage)).build();
 			channel.send(message);
 			log.debug("postMessage lastMessageId=" + chatMessage.getId());
@@ -156,13 +142,9 @@ public class ChatServiceJpaImpl implements ChatService {
 	}
 
 	private ChatUser getChatUser(User user, Integer chatId){
-		Query query = em.createQuery("from ChatUser cu where cu.user=:user and cu.chat.id=:chatId");
-		query.setParameter("user", user);
-		query.setParameter("chatId", chatId);
-		ChatUser chatUser = (ChatUser) query.getSingleResult();
-		return chatUser;
+		return dao.getChatUser(user, chatId);
 	}
-	
+
 	private static Date getMinusDays(int days){
 		Calendar c = Calendar.getInstance();
 		c.set(Calendar.HOUR_OF_DAY, 0);
@@ -172,5 +154,5 @@ public class ChatServiceJpaImpl implements ChatService {
 		c.add(Calendar.DAY_OF_YEAR, -days);
 		return c.getTime();
 	}	
-	
+
 }

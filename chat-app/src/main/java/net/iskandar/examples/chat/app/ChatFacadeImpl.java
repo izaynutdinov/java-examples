@@ -31,6 +31,8 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 public class ChatFacadeImpl extends RemoteServiceServlet implements ChatFacade {
 
+	private static final long serialVersionUID = -1495578471250482309L;
+	
 	private static final String CURRENT_USER_ATTR_NAME = "net.iskandar.for_binadox.chat.server.ChatFacadeImpl.CURRENT_USER";
 	private static final Logger log = LogManager.getLogger(ChatFacadeImpl.class);
 	private ChatService chatService;

@@ -5,6 +5,7 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
 import net.iskandar.examples.chat.app.client.mvp.model.ChatModel;
 import net.iskandar.examples.chat.app.client.mvp.model.STOMPChatModel;
+import net.iskandar.examples.chat.app.client.mvp.views.ViewFactory;
 
 public class STOMPChatApplication extends ChatApplicationBaseImpl {
 

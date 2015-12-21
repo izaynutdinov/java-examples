@@ -83,6 +83,16 @@ h1 {
 	margin: 6px;	
 }
 
+.chat-message-blue {
+	color: black;
+	padding: 5px;
+	font-size: 13pt;
+	border: 1px black solid;
+	border-radius: 5px;
+	background: #b3c1ec;
+	margin: 6px;	
+}
+
 .chat-panel {
 	
 }

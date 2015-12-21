@@ -1,8 +1,10 @@
 package net.iskandar.examples.chat.app.client;
 
-import java.io.Serializable;
+import com.google.gwt.user.client.rpc.IsSerializable;
 
-public class ChatFacadeException extends Exception implements Serializable {
+public class ChatFacadeException extends Exception implements IsSerializable {
+
+	private static final long serialVersionUID = -993022760143424973L;
 
 	public enum ErrorCode {
 		NOT_LOGGED_IN,

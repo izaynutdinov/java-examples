@@ -16,9 +16,12 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.smartgwt.client.types.TreeModelType;
+import com.smartgwt.client.widgets.HTMLFlow;
+import com.smartgwt.client.widgets.Label;
 import com.smartgwt.client.widgets.grid.events.SelectionChangedHandler;
 import com.smartgwt.client.widgets.grid.events.SelectionEvent;
 import com.smartgwt.client.widgets.layout.HLayout;
+import com.smartgwt.client.widgets.layout.VLayout;
 import com.smartgwt.client.widgets.tree.Tree;
 import com.smartgwt.client.widgets.tree.TreeGrid;
 import com.smartgwt.client.widgets.tree.TreeGridField;
@@ -30,14 +33,18 @@ import com.smartgwt.client.widgets.tree.TreeNode;
 public class Chat implements EntryPoint {
 
 	private static final Logger log = new Logger("Chat");
+
+	private Label chatTitleLabel;
+	private String chatTitle;
 	private String nodeId;
-	
+
 	private Timer treeSelectionTimer = new Timer(){
 		@Override
 		public void run() {
 			log.log("treeSelectionTimer.run id=" + nodeId);
 			try {
 				int id = Integer.parseInt(nodeId);
+				chatTitleLabel.setContents(chatTitle);
 				History.newItem("chat:" + id);
 			} catch(NumberFormatException nfe){
 				;
@@ -59,38 +66,64 @@ public class Chat implements EntryPoint {
 
 			@Override
 			public void onSuccess(List<ChatTo> result) {
-				
-				final HLayout mainLayout = new HLayout();
-				mainLayout.setMargin(0);
-				mainLayout.setBorder("2px solid gray");				
-				mainLayout.setWidth(Window.getClientWidth() - 15);
-				mainLayout.setHeight(Window.getClientHeight() - 30);
-				Window.addResizeHandler(new ResizeHandler() {
+				ChatTo chat = null;
+				if(result.size() > 0){
+					chat = result.get(0);
+				}
+				Window.enableScrolling(false);
+				Window.setMargin("0px");
 
-					@Override
-					public void onResize(ResizeEvent event) {
-						log.log("onWindowResizeHandler");
-						int newWidth = Window.getClientWidth() - 15;
-						int newHeight = Window.getClientHeight() - 30;
-						log.log("onResize newWidth=" + newWidth
-								+ ", newHeight=" + newHeight);
-						mainLayout.setWidth(newWidth);
-						mainLayout.setHeight(newHeight);
-					}
+				final VLayout mainLayout = new VLayout();
+				mainLayout.setWidth100();
+				mainLayout.setHeight100();
+				VLayout header  = new VLayout();
+				header.setWidth100();
+				header.setHeight("50px");
+				header.addMember(new HTMLFlow("<div class=\"chat-title\">Chat App Using Smart GWT</div>"));
 
-				});
+				final HLayout splitLayout = new HLayout();
+				splitLayout.setMargin(0);
+				splitLayout.setBorder("2px solid gray");
+				splitLayout.setPadding(5);
+				splitLayout.setWidth100();
+				splitLayout.setHeight("*");
+
 				TreeGrid menu = createTree(result);
+
+				VLayout body = new VLayout();
+				body.setWidth("*");
+				body.setHeight100();
+				body.setMargin(0);
+				body.setBorder("1px #ABABAB solid");
+
+				chatTitleLabel = new Label();
+				chatTitleLabel.setWidth100();
+				chatTitleLabel.setHeight("15px");
+				chatTitleLabel.setStyleName("chat-title-label");
+				if(chat != null) {
+					chatTitleLabel.setContents(chat.getTitle());
+				}
 
 				final CenterPanel centerPanel = new CenterPanel();
 				centerPanel.setMargin(0);
 				centerPanel.setPadding(0);
-				centerPanel.setWidth("*");
-				centerPanel.setHeight("100%");
+				centerPanel.setWidth100();
+				centerPanel.setHeight100();
+				
+				
+				body.setMembers(chatTitleLabel, centerPanel);
 
-				mainLayout.setMembers(menu, centerPanel);
+				splitLayout.setMembers(menu, body);
+				
+				mainLayout.setMembers(header, splitLayout);				
+				
 				RootPanel.get().add(mainLayout);
 				
-				chatApplication.init(centerPanel, new ViewFactoryImpl());				
+				chatApplication.setChatMessageRenderer(new ChatMessageRendererImpl());
+				if(chat != null)
+					chatApplication.setDefaultChatId(chat.getId());
+				chatApplication.init(centerPanel, new ViewFactoryImpl());
+				
 
 			}
 
@@ -122,6 +155,7 @@ public class Chat implements EntryPoint {
 			public void onSelectionChanged(SelectionEvent event) {
 				log.log("onSelectionChanged");
 				nodeId = event.getSelectedRecord().getAttribute("ID");
+				chatTitle = event.getSelectedRecord().getAttribute("TITLE");
 				if(treeSelectionTimer.isRunning())
 					treeSelectionTimer.cancel();
 				treeSelectionTimer.schedule(1000);

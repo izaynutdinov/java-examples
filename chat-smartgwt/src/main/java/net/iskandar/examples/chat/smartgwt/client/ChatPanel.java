@@ -5,6 +5,7 @@ import java.util.List;
 import net.iskandar.examples.chat.app.client.ChatFacadeException;
 import net.iskandar.examples.chat.app.client.log.Logger;
 import net.iskandar.examples.chat.app.client.mvp.model.ChatModel;
+import net.iskandar.examples.chat.app.client.mvp.presenters.ChatPresenter;
 import net.iskandar.examples.chat.app.client.mvp.views.ChatView;
 import net.iskandar.examples.chat.app.client.to.ChatMessageTo;
 import net.iskandar.examples.chat.app.client.to.UserTo;
@@ -13,7 +14,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DockPanel;
@@ -24,42 +24,32 @@ import com.smartgwt.client.widgets.Canvas;
 import com.smartgwt.client.widgets.HTMLFlow;
 import com.smartgwt.client.widgets.layout.VLayout;
 
-public class ChatPanel extends VLayout implements ChatView, ChatModel.Listener, Resizeable {
+public class ChatPanel extends VLayout implements ChatView, Resizeable {
+
 	private static final Logger log = new Logger(ChatPanel.class.getName());
 
+	private ChatPresenter presenter;
 	private TextArea textArea;
 	private VLayout chatLog;
 	private HTMLFlow latestChatItem;
 	private DockPanel chatControl;
-	private ChatModel chatModel;
 	private Button button;
-	private Integer chatId;
-
-	private HandlerRegistration resizeHandler;
 
 	private Timer scrollToBottom = new Timer(){
-
 		@Override
 		public void run() {
 			chatLog.scrollToBottom();
 		}
-
 	};
-	
-	public ChatPanel(ChatModel chatModel) {
+
+	public ChatPanel() {
 		super();
-
-		this.chatModel = chatModel;
-		chatModel.addListener(this);
-
+		setPadding(0);
+		setMargin(0);
 		chatLog = new VLayout();
 		chatLog.setWidth("100%");
 		chatLog.setHeight("*");
-		//chatLog.setBorder("1px green solid");
-		//chatLog.setShowEdges(true);
 		chatLog.setOverflow(Overflow.AUTO);
-		
-		//setShowEdges(true);
 
 		chatControl = new DockPanel();
 		chatControl.setStyleName("cw-DockPanel");
@@ -75,7 +65,7 @@ public class ChatPanel extends VLayout implements ChatView, ChatModel.Listener, 
 		button.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				ChatPanel.this.chatModel.postMessage(textArea.getText());
+				presenter.postMessage(textArea.getText());
 				textArea.setText("");
 				button.setEnabled(false);
 			}
@@ -87,7 +77,6 @@ public class ChatPanel extends VLayout implements ChatView, ChatModel.Listener, 
 		textArea.addKeyUpHandler(new KeyUpHandler() {
 			@Override
 			public void onKeyUp(KeyUpEvent event) {
-				log.log("textArea.onKeyUp text=" + textArea.getText());
 				button.setEnabled(!"".equals(textArea.getText()));
 			}
 		});
@@ -95,21 +84,8 @@ public class ChatPanel extends VLayout implements ChatView, ChatModel.Listener, 
 		chatControl.add(textArea, DockPanel.CENTER);
 		chatControl.add(button, DockPanel.EAST);
 		
-//		chatControl.setMembers(textArea, button);
-//		chatControl.setMembers(new BlueBox("*", null, "TEXTAREA"), new BlueBox("95px", null, "TEXTAREA"));
 		addMember(chatLog);
 		addMember(chatControl);
-		
-	}
-
-	@Override
-	public void setChatId(Integer chatId){
-		log.log("setChatId chatId=" + chatId);
-		this.chatId = chatId;
-		for(Canvas canvas : chatLog.getMembers())
-			chatLog.removeChild(canvas);
-		this.latestChatItem = null;
-		chatModel.init(chatId, 0);		
 	}
 
 	@Override
@@ -117,7 +93,7 @@ public class ChatPanel extends VLayout implements ChatView, ChatModel.Listener, 
 		super.onBind();
 		log.log("onBind");
 	}
-	
+
 	@Override
 	public void resize(int width, int height){
 		log.log("resize");
@@ -149,50 +125,39 @@ public class ChatPanel extends VLayout implements ChatView, ChatModel.Listener, 
 	}
 
 	@Override
-	public void newMessages(ChatModel sender, List<ChatMessageTo> messages) {
-		for(ChatMessageTo message : messages){
-			log.log("newMessage: from:" + message.getChatUser().getUser().getLogin() + ", text:" + message.getText());
-			HTMLFlow flow = null;
-			if(latestChatItem != null){
-				flow = latestChatItem;
-			} else {
-				flow = new HTMLFlow();
-				chatLog.addMember(flow);					
-			}
-			StringBuffer buf = new StringBuffer();
-			String[] lines = message.getText().split("\n");
-			for(int i = 0; i < lines.length; i++){
-				if(i < (lines.length - 1))
-					buf.append(lines[i] + "<br/>");
-				else
-					buf.append(lines[i]);
-			}
-			UserTo user = message.getChatUser().getUser();
-			flow.setContents("<div class=\"chat-message\"><b>" + message.getTime().toString() + " " + user.getFirstName() + " " + user.getLastName() + " wrote:  </b>" + buf.toString() + "</div>");
-	
-			latestChatItem = new HTMLFlow();
-			latestChatItem.setContents("<div style=\"width: 100%;height: 100px;\"></div>");
-			chatLog.addMember(latestChatItem);
-			//
-			//messagesAdded.add(flow);
-		}
-		if(!messages.isEmpty()){
-//			chatLog.scrollToBottom();
-	 		if(scrollToBottom.isRunning())
-				scrollToBottom.cancel();
-			scrollToBottom.schedule(1);
-		}
-	}
-
-	@Override
 	public Widget asWidget() {
 		return this;
 	}
 
 	@Override
-	public void chatError(ChatFacadeException error) {
-		// TODO Auto-generated method stub
+	public void setChatPresenter(ChatPresenter chatPresenter) {
+		presenter = chatPresenter;
+	}
+
+	@Override
+	public void clearMessages() {
+		for(Canvas canvas : chatLog.getMembers())
+			chatLog.removeChild(canvas);
+		this.latestChatItem = null;	
+	}
+
+	@Override
+	public void addMessage(String messageHtml) {
+		HTMLFlow flow = null;
+		if(latestChatItem != null){
+			flow = latestChatItem;
+		} else {
+			flow = new HTMLFlow();
+			chatLog.addMember(flow);					
+		}
+		flow.setContents(messageHtml);
 		
+		latestChatItem = new HTMLFlow();
+		latestChatItem.setContents("<div style=\"width: 100%;height: 100px;\"></div>");
+		chatLog.addMember(latestChatItem);
+ 		if(scrollToBottom.isRunning())
+			scrollToBottom.cancel();
+		scrollToBottom.schedule(1);
 	}
 
 }

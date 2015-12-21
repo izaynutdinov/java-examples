@@ -3,22 +3,15 @@ package net.iskandar.examples.chat.app.domain;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 
 @Entity
 @Table(name="CHATS")
-public class Chat {
+public class Chat extends BaseEntity {
 
-	@Id
-    @GeneratedValue
-    private Integer id;
-	
 	@ManyToOne(optional=false, cascade=CascadeType.ALL)
 	@JoinColumn(name="OWNER_ID", nullable=false)
 	private User owner;
@@ -31,14 +24,6 @@ public class Chat {
 	
 	@Column(name="LAST_MESSAGE_ID")
 	private Integer lastMessageId;
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
 
 	public User getOwner() {
 		return owner;

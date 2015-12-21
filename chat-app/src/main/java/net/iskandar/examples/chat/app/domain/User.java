@@ -2,17 +2,11 @@ package net.iskandar.examples.chat.app.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="USERS")
-public class User {
-
-	@Id
-    @GeneratedValue
-    private Integer id;
+public class User extends BaseEntity {
 
     @Column(name="FIRST_NAME")
 	private String firstName;
@@ -34,14 +28,6 @@ public class User {
 
     @Column(name="EMAIL_VERIFICATION_TOKEN", columnDefinition="char(32)")
     private String emailVerificationToken;
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
 
 	public String getFirstName() {
 		return firstName;

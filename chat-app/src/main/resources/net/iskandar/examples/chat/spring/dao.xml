@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context-4.2.xsd
+                           http://www.springframework.org/schema/mvc
+                           http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+                           http://www.springframework.org/schema/jee
+                           http://www.springframework.org/schema/jee/spring-jee-4.2.xsd
+						   http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+                           http://www.springframework.org/schema/integration
+                           http://www.springframework.org/schema/integration/spring-integration-4.2.xsd">
+
+	<beans profile="jpa">
+
+		<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+			<property name="dataSource" ref="dataSource" />
+			<property name="persistenceXmlLocation" value="classpath:META-INF/my-persistence.xml" />
+			<property name="persistenceUnitName" value="net.iskandar.examples.chat.persistence" />
+		</bean>
+
+		<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+			<property name="entityManagerFactory" ref="entityManagerFactory" />
+			<property name="dataSource" ref="dataSource" />
+		</bean>
+
+		<bean id="dao" class="net.iskandar.examples.chat.app.dao.jpa.DAOImpl" >
+
+		</bean>
+
+	</beans>
+
+	<beans profile="hibernate">
+	
+		<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+	        <property name="dataSource" ref="dataSource"/>
+	        <property name="packagesToScan">
+	            <list>
+	                <value>net.iskandar.examples.chat.app.domain</value>
+	            </list>
+	        </property>
+	        <property name="hibernateProperties">
+	            <value>
+	                hibernate.dialect=org.hibernate.dialect.MySQLDialect
+	                show_sql=true
+	                hbm2ddl.auto=validate
+	            </value>
+	        </property>
+	    </bean>
+	    
+		<bean id="transactionManager"
+            	class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        	<property name="sessionFactory" ref="sessionFactory"/>
+    	</bean>	    
+	
+		<bean id="dao" class="net.iskandar.examples.chat.app.dao.hibernate.DAOImpl" >
+			<property name="sessionFactory" ref="sessionFactory" />
+		</bean>
+	</beans>
+
+</beans>

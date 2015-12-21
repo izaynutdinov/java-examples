@@ -1,8 +1,8 @@
 package net.iskandar.examples.chat.app.client.to;
 
-import java.io.Serializable;
+import com.google.gwt.user.client.rpc.IsSerializable;
 
-public class ChatTo implements Serializable {
+public class ChatTo implements IsSerializable {
 
 	private Integer id;
 	private String title;
@@ -31,5 +31,5 @@ public class ChatTo implements Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+
 }

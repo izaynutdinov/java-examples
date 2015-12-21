@@ -6,7 +6,6 @@ import java.util.List;
 import net.iskandar.examples.chat.app.client.ChatFacadeAsync;
 import net.iskandar.examples.chat.app.client.log.Logger;
 import net.iskandar.examples.chat.app.client.mvp.ChatApplication;
-import net.iskandar.examples.chat.app.client.mvp.model.ChatModel.Listener;
 import net.iskandar.examples.chat.app.client.to.ChatMessageTo;
 import net.iskandar.examples.chat.app.client.to.ChatMessagesTo;
 

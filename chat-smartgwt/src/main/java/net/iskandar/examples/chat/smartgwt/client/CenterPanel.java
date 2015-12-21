@@ -17,6 +17,7 @@ public class CenterPanel extends VLayout implements AcceptsOneWidget {
 	
 	public CenterPanel() {
 		super();
+		setPadding(0);
 	}
 
 	@Override
@@ -33,7 +34,7 @@ public class CenterPanel extends VLayout implements AcceptsOneWidget {
 								+ getWidth());
 						log.log("centerPanel.getHeight() = "
 								+ getHeight());
-						resizeable.resize(getWidth()-10, getHeight()-20);
+						resizeable.resize(getWidth() - 5, getHeight() - 15);
 					}
 				}
 			});
@@ -42,8 +43,8 @@ public class CenterPanel extends VLayout implements AcceptsOneWidget {
 		log.log("widget class name: " + widget.getClass().getName());
 		if(widget instanceof Canvas){
 			Canvas canvas = (Canvas) widget;
-			canvas.setWidth(getWidth() - 10);
-			canvas.setHeight(getHeight() - 20);
+			canvas.setWidth(getWidth());
+			canvas.setHeight(getHeight());
 			setMembers((Canvas) widget);			
 		} else {
 			log.log("ERROR: setWidget - \"widget passed is not an instance of Canvas\"");

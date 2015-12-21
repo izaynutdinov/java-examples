@@ -21,6 +21,12 @@
 					</td>
 				</tr>
 				<tr>
+					<td colspan="2">
+						<i>Enter - linus, bjarne or james as a login<br/>
+						Enter 123 as a password</i>
+					</td>
+				</tr>
+				<tr>
 					<td><mvc:label path="login"><b>Login:</b></mvc:label></td>
 					<td><mvc:input path="login" /></td>
 				</tr>

@@ -19,6 +19,8 @@
                            http://www.springframework.org/schema/integration
                            http://www.springframework.org/schema/integration/spring-integration-4.2.xsd">
 
+	<import resource="classpath:net/iskandar/examples/chat/spring/dao.xml" />
+
 	<context:annotation-config />
 	<tx:annotation-driven transaction-manager="transactionManager" />
 
@@ -33,18 +35,8 @@
 		<property name="password" value="qwerty" />
 	</bean>
 
-	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-		<property name="dataSource" ref="dataSource" />
-		<property name="persistenceXmlLocation" value="classpath:META-INF/my-persistence.xml" />
-		<property name="persistenceUnitName" value="net.iskandar.examples.chat.persistence" />
-	</bean>
-
-	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-		<property name="entityManagerFactory" ref="entityManagerFactory" />
-		<property name="dataSource" ref="dataSource" />
-	</bean>
-
-	<bean id="chatService" class="net.iskandar.examples.chat.app.service.impl.ChatServiceJpaImpl">
+	<bean id="chatService" class="net.iskandar.examples.chat.app.service.impl.ChatServiceImpl">
+		<property name="dao" ref="dao" />
 		<property name="channel" ref="chatChannel" />
 	</bean>
 

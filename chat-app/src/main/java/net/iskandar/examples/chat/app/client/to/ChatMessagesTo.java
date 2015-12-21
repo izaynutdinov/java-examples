@@ -1,9 +1,10 @@
 package net.iskandar.examples.chat.app.client.to;
 
-import java.io.Serializable;
 import java.util.List;
 
-public class ChatMessagesTo implements Serializable {
+import com.google.gwt.user.client.rpc.IsSerializable;
+
+public class ChatMessagesTo implements IsSerializable {
 
 	private Integer chatId;
 	private Integer lastMessageId;

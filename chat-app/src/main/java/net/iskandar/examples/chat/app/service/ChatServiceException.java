@@ -2,6 +2,8 @@ package net.iskandar.examples.chat.app.service;
 
 public class ChatServiceException extends Exception {
 
+	private static final long serialVersionUID = 1409950129022050834L;
+
 	public ChatServiceException() {
 		super();
 	}

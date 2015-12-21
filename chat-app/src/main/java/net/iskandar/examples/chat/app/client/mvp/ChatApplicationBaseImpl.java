@@ -5,6 +5,7 @@ import net.iskandar.examples.chat.app.client.ChatFacadeAsync;
 import net.iskandar.examples.chat.app.client.mvp.model.ChatModel;
 import net.iskandar.examples.chat.app.client.mvp.places.ChatPlace;
 import net.iskandar.examples.chat.app.client.mvp.views.ChatView;
+import net.iskandar.examples.chat.app.client.mvp.views.ViewFactory;
 
 import com.google.gwt.activity.shared.ActivityManager;
 import com.google.gwt.core.client.GWT;
@@ -22,6 +23,8 @@ public abstract class ChatApplicationBaseImpl implements ChatApplication {
 	private ChatModel chatModel;
 	private ChatView chatView;
 	private ViewFactory viewFactory;
+	private ChatMessageRenderer chatMessageRenderer = new DefaultChatMessageRenderer();
+	private Integer defaultChatId = 1;
 
 	public EventBus getEventBus() {
 		return eventBus;
@@ -48,19 +51,38 @@ public abstract class ChatApplicationBaseImpl implements ChatApplication {
 	}
 
 	@Override
+	public ChatMessageRenderer getChatMessageRenderer() {
+		return chatMessageRenderer;
+	}
+
+	@Override
+	public void setChatMessageRenderer(ChatMessageRenderer chatMessageRederer) {
+		this.chatMessageRenderer = chatMessageRederer;
+	}
+	@Override
+	public Integer getDefaultChatId() {
+		return defaultChatId;
+	}
+
+	@Override
+	public void setDefaultChatId(Integer defaultChatId) {
+		this.defaultChatId = defaultChatId;
+	}
+
+	@Override
 	public void init(AcceptsOneWidget centerWidget, ViewFactory viewFactory) {
 		this.viewFactory = viewFactory;
 		chatModel = createChatModel();
 		placeController = new PlaceController(eventBus);		
-		chatView = viewFactory.createChatView(this);
+		chatView = viewFactory.createChatView();
 
 		ChatActivityMapper activityMapper = new ChatActivityMapper(this);				
 		ActivityManager activityManager = new ActivityManager(activityMapper, eventBus);
 		activityManager.setDisplay(centerWidget);
 
-		ChatPlacesHistoryMapper historyMapper= GWT.create(ChatPlacesHistoryMapper.class);
+		ChatPlacesHistoryMapper historyMapper = GWT.create(ChatPlacesHistoryMapper.class);
         PlaceHistoryHandler historyHandler = new PlaceHistoryHandler(historyMapper);
-        historyHandler.register(placeController, eventBus, new ChatPlace("1"));				
+        historyHandler.register(placeController, eventBus, new ChatPlace(defaultChatId.toString()));				
 
         historyHandler.handleCurrentHistory();		        
 	}

@@ -1,10 +1,8 @@
 package net.iskandar.examples.chat.app;
 
 import java.text.DateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 
