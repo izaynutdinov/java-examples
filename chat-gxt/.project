@@ -1,0 +1,20 @@
+<projectDescription>
+  <name>chat-gxt</name>
+  <comment>Set of helper applications to show the use of layout panels and GWT History Management in action.</comment>
+  <projects/>
+  <buildSpec>
+    <buildCommand>
+      <name>org.eclipse.jdt.core.javabuilder</name>
+    </buildCommand>
+    <buildCommand>
+      <name>com.google.gdt.eclipse.core.webAppProjectValidator</name>
+    </buildCommand>
+    <buildCommand>
+      <name>com.google.gwt.eclipse.core.gwtProjectValidator</name>
+    </buildCommand>
+  </buildSpec>
+  <natures>
+    <nature>org.eclipse.jdt.core.javanature</nature>
+    <nature>com.google.gwt.eclipse.core.gwtNature</nature>
+  </natures>
+</projectDescription>

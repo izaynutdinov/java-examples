@@ -1,0 +1,22 @@
+.x-viewport {
+	background-color: #070;
+	margin: 0px;
+}
+
+div.chat-title {
+	background-color: #3f6bbc;
+	color: white;
+	font-size: 15pt;
+	height: 34px;
+	padding-left: 15px;
+	padding-top: 15px;
+}
+
+.chat-log {
+	width: 100%;
+	background: white;
+}
+
+.chat-scroll-panel {
+	background: white;
+}

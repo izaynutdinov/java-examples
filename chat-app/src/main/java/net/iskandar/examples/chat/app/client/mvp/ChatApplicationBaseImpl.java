@@ -59,6 +59,7 @@ public abstract class ChatApplicationBaseImpl implements ChatApplication {
 	public void setChatMessageRenderer(ChatMessageRenderer chatMessageRederer) {
 		this.chatMessageRenderer = chatMessageRederer;
 	}
+
 	@Override
 	public Integer getDefaultChatId() {
 		return defaultChatId;
