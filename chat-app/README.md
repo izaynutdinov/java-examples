@@ -1,4 +1,17 @@
-This is a common chat runtime used by chat-gxt, chat-smartgwt and chat-angular front end applications. It contains chat domain model, persistence layer using JPA, persistence layer using Hibernate. ChatService. websocket connectivity. GWT-RPC services used by both of GWT based front-ends and REST services used by Angular based fron-end.
+This is a common chat runtime used by:
+
+* chat-gxt
+* chat-smartgwt
+* chat-angular
+
+It contains:
+* Chat domain model
+* Persistence layer using JPA
+* Persistence layer using Hibernate
+* ChatService
+* websocket (STOMP) connectivity
+* GWT-RPC services used by both of GWT based front-ends
+* REST services used by Angular based fron-end
 
 ```java
 public interface ViewFactory {
