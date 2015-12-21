@@ -24,3 +24,18 @@ public interface ChatApplication {
 
 
 ````
+
+```java
+
+@RemoteServiceRelativePath("facade")
+public interface ChatFacade extends RemoteService {
+
+	List<ChatTo> getChats() throws ChatFacadeException;
+	List<ChatUserTo> getChatUsers(Integer chatId) throws ChatFacadeException;
+	ChatMessagesTo getChatMessages(Integer chatId, int days) throws ChatFacadeException;
+	List<ChatMessageTo> updateChatMessages(Integer[] chats, Integer lastMessageId) throws ChatFacadeException;
+	void postMessage(Integer chatId, String text) throws ChatFacadeException;
+
+}
+
+````
