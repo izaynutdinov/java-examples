@@ -34,27 +34,25 @@ gwt-stomp is a STOMP protocol support for the GWT Framework.
 
 ## GWT-MVP
 
+chat-app includes full implementation of Chat-MVP.
 
-The GWT MVP application logic implemented in `ChatApplication`. Two implementations of this interface provided: `PollingChatApplication` and `STOMPChatApplication`.
+The GWT MVP application logic implemented in `ChatApplication`. Two implementations of this interface provided: `PollingChatApplication` and `STOMPChatApplication`. Both use `PollingChatModel` and `STOMPChatModel` as a chat model implementation respectively.
 
 
 ```java
 public interface ChatApplication {
-	ChatView getChatView();
 	ChatFacadeAsync getChatFacade();
-	EventBus getEventBus();
-	PlaceController getPlaceController();
-	ChatModel getChatModel();
 	ViewFactory getViewFactory();
-	void setChatMessageRenderer(ChatMessageRenderer chatMessageRederer);
 	ChatMessageRenderer getChatMessageRenderer();
 	Integer getDefaultChatId();
 	void setDefaultChatId(Integer defaultChatId);
+	void setChatMessageRenderer(ChatMessageRenderer chatMessageRederer);
 	void init(AcceptsOneWidget centerWidget, ViewFactory viewFactory);
 }
+
 ````
 
-`ViewFactory` abstracts process of creation of `ChaView` wich is UI library specific.
+`ViewFactory` abstracts process of creation of `ChaView` wich is UI library specific. So both GWT based chat applications (chat-smartgwt and chat-gxt) implements it's own `ViewFactory`.
 
 ```java
 public interface ViewFactory {

@@ -11,6 +11,6 @@ public interface ChatApplication {
 	ChatMessageRenderer getChatMessageRenderer();
 	Integer getDefaultChatId();
 	void setDefaultChatId(Integer defaultChatId);	
-	void init(AcceptsOneWidget centerWidget, ViewFactory viewFactory);
 	void setChatMessageRenderer(ChatMessageRenderer chatMessageRederer);
+	void init(AcceptsOneWidget centerWidget, ViewFactory viewFactory);	
 }
