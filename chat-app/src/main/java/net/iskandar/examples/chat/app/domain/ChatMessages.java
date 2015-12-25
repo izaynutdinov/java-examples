@@ -5,6 +5,7 @@ import java.util.List;
 public class ChatMessages {
 
 	private Integer chatId;
+	private Chat chat;
 	private Integer lastMessageId;
 	private List<ChatMessage> chatMessages;
 
@@ -14,6 +15,14 @@ public class ChatMessages {
 
 	public void setChatId(Integer chatId) {
 		this.chatId = chatId;
+	}
+
+	public Chat getChat() {
+		return chat;
+	}
+
+	public void setChat(Chat chat) {
+		this.chat = chat;
 	}
 
 	public Integer getLastMessageId() {

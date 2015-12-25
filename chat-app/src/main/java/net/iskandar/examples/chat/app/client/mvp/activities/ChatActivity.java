@@ -3,7 +3,7 @@ package net.iskandar.examples.chat.app.client.mvp.activities;
 import java.util.List;
 
 import net.iskandar.examples.chat.app.client.ChatFacadeException;
-import net.iskandar.examples.chat.app.client.mvp.ChatApplication;
+import net.iskandar.examples.chat.app.client.mvp.ChatApplicationInternal;
 import net.iskandar.examples.chat.app.client.mvp.ChatMessageRenderer;
 import net.iskandar.examples.chat.app.client.mvp.model.ChatModel;
 import net.iskandar.examples.chat.app.client.mvp.places.ChatPlace;
@@ -17,12 +17,12 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
 public class ChatActivity implements Activity, ChatPresenter, ChatModel.Listener {
 
-	private ChatApplication chatApplication;
+	private ChatApplicationInternal chatApplication;
 	private ChatPlace place;
 	private ChatModel chatModel;
 	private ChatView chatView;
 
-	public ChatActivity(ChatPlace place, ChatApplication chatApplication) {
+	public ChatActivity(ChatPlace place, ChatApplicationInternal chatApplication) {
 		super();
 		this.chatApplication = chatApplication;
 		this.place = place;

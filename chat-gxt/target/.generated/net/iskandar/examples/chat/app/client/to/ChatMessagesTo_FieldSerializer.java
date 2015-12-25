@@ -7,6 +7,15 @@ import com.google.gwt.user.client.rpc.impl.ReflectionHelper;
 
 @SuppressWarnings("deprecation")
 public class ChatMessagesTo_FieldSerializer implements com.google.gwt.user.client.rpc.impl.TypeHandler {
+  private static native net.iskandar.examples.chat.app.client.to.ChatTo getChat(net.iskandar.examples.chat.app.client.to.ChatMessagesTo instance) /*-{
+    return instance.@net.iskandar.examples.chat.app.client.to.ChatMessagesTo::chat;
+  }-*/;
+  
+  private static native void setChat(net.iskandar.examples.chat.app.client.to.ChatMessagesTo instance, net.iskandar.examples.chat.app.client.to.ChatTo value) 
+  /*-{
+    instance.@net.iskandar.examples.chat.app.client.to.ChatMessagesTo::chat = value;
+  }-*/;
+  
   private static native java.lang.Integer getChatId(net.iskandar.examples.chat.app.client.to.ChatMessagesTo instance) /*-{
     return instance.@net.iskandar.examples.chat.app.client.to.ChatMessagesTo::chatId;
   }-*/;
@@ -35,6 +44,7 @@ public class ChatMessagesTo_FieldSerializer implements com.google.gwt.user.clien
   }-*/;
   
   public static void deserialize(SerializationStreamReader streamReader, net.iskandar.examples.chat.app.client.to.ChatMessagesTo instance) throws SerializationException {
+    setChat(instance, (net.iskandar.examples.chat.app.client.to.ChatTo) streamReader.readObject());
     setChatId(instance, (java.lang.Integer) streamReader.readObject());
     setLastMessageId(instance, (java.lang.Integer) streamReader.readObject());
     setMessages(instance, (java.util.List) streamReader.readObject());
@@ -46,6 +56,7 @@ public class ChatMessagesTo_FieldSerializer implements com.google.gwt.user.clien
   }
   
   public static void serialize(SerializationStreamWriter streamWriter, net.iskandar.examples.chat.app.client.to.ChatMessagesTo instance) throws SerializationException {
+    streamWriter.writeObject(getChat(instance));
     streamWriter.writeObject(getChatId(instance));
     streamWriter.writeObject(getLastMessageId(instance));
     streamWriter.writeObject(getMessages(instance));

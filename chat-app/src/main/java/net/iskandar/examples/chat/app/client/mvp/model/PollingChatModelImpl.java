@@ -3,7 +3,7 @@ package net.iskandar.examples.chat.app.client.mvp.model;
 import java.util.List;
 
 import net.iskandar.examples.chat.app.client.log.Logger;
-import net.iskandar.examples.chat.app.client.mvp.ChatApplication;
+import net.iskandar.examples.chat.app.client.mvp.ChatApplicationInternal;
 import net.iskandar.examples.chat.app.client.to.ChatMessageTo;
 
 import com.google.gwt.user.client.Timer;
@@ -14,7 +14,7 @@ public class PollingChatModelImpl extends BaseChatModelImpl {
 	private Timer updateMessagesTimer;
 	private static final Logger log = new Logger("PollingChatModelImpl");
 
-	public PollingChatModelImpl(ChatApplication chatApplication){
+	public PollingChatModelImpl(ChatApplicationInternal chatApplication){
 		super(chatApplication);
 	}
 

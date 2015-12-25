@@ -119,7 +119,7 @@ public class Chat implements EntryPoint {
 				
 				RootPanel.get().add(mainLayout);
 				
-				chatApplication.setChatMessageRenderer(new ChatMessageRendererImpl());
+				//chatApplication.setChatMessageRenderer(new ChatMessageRendererImpl());
 				if(chat != null)
 					chatApplication.setDefaultChatId(chat.getId());
 				chatApplication.init(centerPanel, new ViewFactoryImpl());

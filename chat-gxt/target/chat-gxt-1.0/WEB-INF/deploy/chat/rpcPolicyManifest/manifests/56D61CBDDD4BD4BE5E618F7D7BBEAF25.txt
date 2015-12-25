@@ -1,2 +1,0 @@
-serviceClass: net.iskandar.examples.chat.app.client.ChatFacade
-path: C945F4A972A5D97960B6260651DF2862.gwt.rpc

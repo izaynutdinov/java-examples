@@ -110,7 +110,7 @@ public class ChatFacade_TypeSerializer extends com.google.gwt.user.client.rpc.im
         @net.iskandar.examples.chat.app.client.to.ChatMessageTo_Array_Rank_1_FieldSerializer::deserialize(Lcom/google/gwt/user/client/rpc/SerializationStreamReader;[Lnet/iskandar/examples/chat/app/client/to/ChatMessageTo;),
       ];
     
-    result["net.iskandar.examples.chat.app.client.to.ChatMessagesTo/223091811"] = [
+    result["net.iskandar.examples.chat.app.client.to.ChatMessagesTo/98314954"] = [
         @net.iskandar.examples.chat.app.client.to.ChatMessagesTo_FieldSerializer::instantiate(Lcom/google/gwt/user/client/rpc/SerializationStreamReader;),
         @net.iskandar.examples.chat.app.client.to.ChatMessagesTo_FieldSerializer::deserialize(Lcom/google/gwt/user/client/rpc/SerializationStreamReader;Lnet/iskandar/examples/chat/app/client/to/ChatMessagesTo;),
       ];
@@ -164,7 +164,7 @@ public class ChatFacade_TypeSerializer extends com.google.gwt.user.client.rpc.im
     result[@com.google.gwt.core.client.impl.Impl::getHashCode(Ljava/lang/Object;)(@net.iskandar.examples.chat.app.client.ChatFacadeException.ErrorCode::class)] = "net.iskandar.examples.chat.app.client.ChatFacadeException$ErrorCode/946018630";
     result[@com.google.gwt.core.client.impl.Impl::getHashCode(Ljava/lang/Object;)(@net.iskandar.examples.chat.app.client.to.ChatMessageTo::class)] = "net.iskandar.examples.chat.app.client.to.ChatMessageTo/2611184133";
     result[@com.google.gwt.core.client.impl.Impl::getHashCode(Ljava/lang/Object;)(@net.iskandar.examples.chat.app.client.to.ChatMessageTo[]::class)] = "[Lnet.iskandar.examples.chat.app.client.to.ChatMessageTo;/4097118722";
-    result[@com.google.gwt.core.client.impl.Impl::getHashCode(Ljava/lang/Object;)(@net.iskandar.examples.chat.app.client.to.ChatMessagesTo::class)] = "net.iskandar.examples.chat.app.client.to.ChatMessagesTo/223091811";
+    result[@com.google.gwt.core.client.impl.Impl::getHashCode(Ljava/lang/Object;)(@net.iskandar.examples.chat.app.client.to.ChatMessagesTo::class)] = "net.iskandar.examples.chat.app.client.to.ChatMessagesTo/98314954";
     result[@com.google.gwt.core.client.impl.Impl::getHashCode(Ljava/lang/Object;)(@net.iskandar.examples.chat.app.client.to.ChatTo::class)] = "net.iskandar.examples.chat.app.client.to.ChatTo/580014730";
     result[@com.google.gwt.core.client.impl.Impl::getHashCode(Ljava/lang/Object;)(@net.iskandar.examples.chat.app.client.to.ChatTo[]::class)] = "[Lnet.iskandar.examples.chat.app.client.to.ChatTo;/3169947995";
     result[@com.google.gwt.core.client.impl.Impl::getHashCode(Ljava/lang/Object;)(@net.iskandar.examples.chat.app.client.to.ChatUserTo::class)] = "net.iskandar.examples.chat.app.client.to.ChatUserTo/2610239105";

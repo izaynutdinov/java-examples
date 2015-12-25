@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 import net.iskandar.examples.chat.app.client.Utils;
 import net.iskandar.examples.chat.app.client.log.Logger;
-import net.iskandar.examples.chat.app.client.mvp.ChatApplication;
+import net.iskandar.examples.chat.app.client.mvp.ChatApplicationInternal;
 import net.iskandar.examples.chat.app.client.to.ChatMessageTo;
 
 import com.codeveo.gwt.stomp.client.Message;
@@ -21,7 +21,7 @@ public class STOMPChatModel extends BaseChatModelImpl {
 
 //	private static Pattern pattern = Pattern.compile("http://([a-z]*):([0-9]*)([/ \\- a-z]{1,1}[/ \\- a-z 0-9]*)");
 
-	public STOMPChatModel(ChatApplication chatApplication) {
+	public STOMPChatModel(ChatApplicationInternal chatApplication) {
 		super(chatApplication);
 	}
 
@@ -36,7 +36,7 @@ public class STOMPChatModel extends BaseChatModelImpl {
 		log.log("host: " + a.getPropertyString("host"));
 		log.log("port: " + a.getPropertyString("port"));
 		log.log("pathname: " + a.getPropertyString("pathname"));
-		String stompUrl = "ws://" + a.getPropertyString("host") + a.getPropertyString("pathname") + "app/stomp";
+		String stompUrl = "http://" + a.getPropertyString("host") + a.getPropertyString("pathname") + "app/stomp";
 		log.log("stompUrl: " + stompUrl);
 		a.removeFromParent();
 
@@ -57,7 +57,7 @@ public class STOMPChatModel extends BaseChatModelImpl {
 					log.log("stompClient.onConnect");
 					subscribe();
 				}
-			}, false, true);
+			}, true, true);
 			log.log("About to connect to stomp!");
 			stompClient.connect();
 		} else {

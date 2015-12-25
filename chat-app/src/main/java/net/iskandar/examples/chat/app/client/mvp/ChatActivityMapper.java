@@ -9,9 +9,9 @@ import com.google.gwt.place.shared.Place;
 
 public class ChatActivityMapper implements ActivityMapper {
 
-	private ChatApplication chatApplication;
+	private ChatApplicationInternal chatApplication;
 
-	public ChatActivityMapper(ChatApplication chatApplication) {
+	public ChatActivityMapper(ChatApplicationInternal chatApplication) {
 		super();
 		this.chatApplication = chatApplication;
 	}

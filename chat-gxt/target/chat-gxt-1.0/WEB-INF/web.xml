@@ -12,10 +12,10 @@
 
 	<context-param>
 		<param-name>spring.profiles.active</param-name>
-		<param-value>jpa</param-value>
+		<param-value>hibernate</param-value>
 	</context-param>
 
-<!-- <filter>
+	<filter>
         <filter-name>open-session-in-view</filter-name>
         <filter-class>
             org.springframework.orm.hibernate4.support.OpenSessionInViewFilter 
@@ -26,6 +26,6 @@
         <filter-name>open-session-in-view</filter-name>
         <servlet-name>webmvc</servlet-name>
         <servlet-name>chatFacade</servlet-name>
-    </filter-mapping> -->
+    </filter-mapping>
 
 </web-app>

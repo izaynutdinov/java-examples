@@ -33,7 +33,6 @@ public class ChatFacadeImpl extends RemoteServiceServlet implements ChatFacade {
 
 	private static final long serialVersionUID = -1495578471250482309L;
 	
-	private static final String CURRENT_USER_ATTR_NAME = "net.iskandar.for_binadox.chat.server.ChatFacadeImpl.CURRENT_USER";
 	private static final Logger log = LogManager.getLogger(ChatFacadeImpl.class);
 	private ChatService chatService;
 
@@ -52,23 +51,13 @@ public class ChatFacadeImpl extends RemoteServiceServlet implements ChatFacade {
 		return super.processCall(payload);
 	}
 
-	private User currentUser(){
-		HttpServletRequest req = getThreadLocalRequest();
-		User user = (User) req.getAttribute(CURRENT_USER_ATTR_NAME);
-		if(user != null)
-			return user;
-		Integer userId = Utils.getUserId(req);
-		if(userId != null){
-			user = chatService.getUser(userId);
-			req.setAttribute(CURRENT_USER_ATTR_NAME, userId);
-			return user;
-		}
-		return null;
+	private User getCurrentUser(){
+		return Utils.getCurrentUser(getThreadLocalRequest(), chatService);
 	}
 
 	@Override
 	public List<ChatTo> getChats() throws ChatFacadeException {
-		User currentUser = currentUser();
+		User currentUser = getCurrentUser();
 		if(currentUser == null)
 			throw createNotLoggedIn("You are not logged in!");
 		List<ChatTo> result = new ArrayList<ChatTo>();
@@ -81,7 +70,7 @@ public class ChatFacadeImpl extends RemoteServiceServlet implements ChatFacade {
 	@Override
 	public List<ChatUserTo> getChatUsers(Integer chatId)
 			throws ChatFacadeException {
-		User currentUser = currentUser();
+		User currentUser = getCurrentUser();
 		if(currentUser == null)
 			throw createNotLoggedIn("You are not logged in!");
 		List<ChatUserTo> results = new ArrayList<ChatUserTo>();
@@ -100,20 +89,12 @@ public class ChatFacadeImpl extends RemoteServiceServlet implements ChatFacade {
 			throws ChatFacadeException {
 		log.debug("getChatMessages chatId=" + chatId + ", days=" + days);
 		
-		User currentUser = currentUser();
+		User currentUser = getCurrentUser();
 		if(currentUser == null)
 			throw createNotLoggedIn("You are not logged in!");
 		try {
-			ChatMessagesTo chatMessagesTo = new ChatMessagesTo();
-			List<ChatMessageTo> messages = new ArrayList<ChatMessageTo>();
 			ChatMessages chatMessages = chatService.getChatMessages(currentUser, chatId, days);
-			chatMessagesTo.setChatId(chatMessages.getChatId());
-			chatMessagesTo.setLastMessageId(chatMessages.getLastMessageId());
-			for(ChatMessage chatMessage : chatMessages.getChatMessages()){
-				messages.add(Utils.createChatMessageTo(chatMessage));
-			}
-			chatMessagesTo.setMessages(messages);
-			return chatMessagesTo;
+			return Utils.createChatMessagesTo(chatMessages);
 		} catch (ChatServiceException e) {
 			throw createServiceError(e);
 		}
@@ -122,7 +103,7 @@ public class ChatFacadeImpl extends RemoteServiceServlet implements ChatFacade {
 	@Override
 	public List<ChatMessageTo> updateChatMessages(Integer[] chats,
 			Integer lastMessageId) throws ChatFacadeException {
-		User currentUser = currentUser();
+		User currentUser = getCurrentUser();
 		if(currentUser == null)
 			throw createNotLoggedIn("You are not logged in!");
 		try {
@@ -139,7 +120,7 @@ public class ChatFacadeImpl extends RemoteServiceServlet implements ChatFacade {
 	@Override
 	public void postMessage(Integer chatId, String text)
 			throws ChatFacadeException {
-		User user = currentUser();
+		User user = getCurrentUser();
 		if(user == null)
 			throw createNotLoggedIn("You are not logged in!");		
 		try {

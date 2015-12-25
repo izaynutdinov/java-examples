@@ -7,6 +7,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 public class ChatMessagesTo implements IsSerializable {
 
 	private Integer chatId;
+	private ChatTo chat;	
 	private Integer lastMessageId;
 	private List<ChatMessageTo> messages;
 
@@ -16,6 +17,14 @@ public class ChatMessagesTo implements IsSerializable {
 
 	public void setChatId(Integer chatId) {
 		this.chatId = chatId;
+	}
+
+	public ChatTo getChat() {
+		return chat;
+	}
+
+	public void setChat(ChatTo chat) {
+		this.chat = chat;
 	}
 
 	public Integer getLastMessageId() {

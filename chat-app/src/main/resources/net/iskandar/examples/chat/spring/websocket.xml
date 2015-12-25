@@ -26,6 +26,7 @@
 
 	<ws:message-broker application-destination-prefix="/app">
         <ws:stomp-endpoint path="/stomp">
+        	<ws:sockjs />
         </ws:stomp-endpoint>
         <ws:simple-broker prefix="/chats" />
     </ws:message-broker>

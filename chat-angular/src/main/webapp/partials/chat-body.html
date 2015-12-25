@@ -1,0 +1,19 @@
+<!doctype html>
+<div class="chat-title">
+	{{ chatMessages.chat.title }}
+</div>
+<div class="chat-log" scroll-glue>
+	<div class="chat-message" ng-repeat="message in chatMessages.messages">
+		<b>
+			{{message.time}}&nbsp;{{message.chatUser.user.firstName}}
+			&nbsp;{{message.chatUser.user.lastName}}&nbsp;wrote: 
+		</b>
+		<span ng-bind-html="renderHtml(message.text)" />
+	</div>
+	<div style="width: 100%;height: 100px;">
+	</div>
+</div>
+<div style="width: 100%; margin-top: 10px; padding: 0px;">
+	<textarea ng-model="messageText" class="message-text"></textarea>
+	<button ng-click="sendMessage()" class="send" ng-disabled="messageText == '' || messageText == null">Send</button>
+</div>

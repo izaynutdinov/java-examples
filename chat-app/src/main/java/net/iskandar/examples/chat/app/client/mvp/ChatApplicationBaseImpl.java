@@ -15,7 +15,7 @@ import com.google.gwt.place.shared.PlaceHistoryHandler;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.web.bindery.event.shared.EventBus;
 
-public abstract class ChatApplicationBaseImpl implements ChatApplication {
+public abstract class ChatApplicationBaseImpl implements ChatApplicationInternal {
 
 	private EventBus eventBus = new SimpleEventBus();
 	private ChatFacadeAsync chatFacade = GWT.create(ChatFacade.class);

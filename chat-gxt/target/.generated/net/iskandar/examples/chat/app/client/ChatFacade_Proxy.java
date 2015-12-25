@@ -13,7 +13,7 @@ import com.google.gwt.user.client.rpc.impl.RpcStatsContext;
 
 public class ChatFacade_Proxy extends RemoteServiceProxy implements net.iskandar.examples.chat.app.client.ChatFacadeAsync {
   private static final String REMOTE_SERVICE_INTERFACE_NAME = "net.iskandar.examples.chat.app.client.ChatFacade";
-  private static final String SERIALIZATION_POLICY ="C945F4A972A5D97960B6260651DF2862";
+  private static final String SERIALIZATION_POLICY ="44AEBEF9D5CB1C5961FA173AD9FA8676";
   private static final net.iskandar.examples.chat.app.client.ChatFacade_TypeSerializer SERIALIZER = new net.iskandar.examples.chat.app.client.ChatFacade_TypeSerializer();
   
   public ChatFacade_Proxy() {

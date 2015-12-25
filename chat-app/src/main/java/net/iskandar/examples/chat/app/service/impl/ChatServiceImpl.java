@@ -85,6 +85,7 @@ public class ChatServiceImpl implements ChatService {
 				ChatMessages chatMessages = new ChatMessages(); 
 				Chat chat = dao.getChat(chatId); 
 				chatMessages.setChatId(chatId);
+				chatMessages.setChat(chat);
 				chatMessages.setLastMessageId(chat.getLastMessageId());
 				Date since = getMinusDays(days);
 				List<ChatMessage> messages = dao.getChatMessages(user, chatId, since);
