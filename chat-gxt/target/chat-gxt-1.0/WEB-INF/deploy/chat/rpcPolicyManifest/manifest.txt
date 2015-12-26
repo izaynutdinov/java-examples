@@ -1,3 +1,0 @@
-# Module chat
-# RPC service class, partial path of RPC policy file
-net.iskandar.examples.chat.app.client.ChatFacade, 44AEBEF9D5CB1C5961FA173AD9FA8676.gwt.rpc
