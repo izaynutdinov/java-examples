@@ -20,7 +20,7 @@ It contains:
 
 ## Compiling
 
-To compile and install chat-app into local maven repository execute the following commands in linux command line:
+To compile and install chat-app into local maven repository execute the following commands in linux command line inside chat-app directory:
 
 ````
 
@@ -40,6 +40,9 @@ The GWT MVP application logic implemented in `ChatApplication`. Two implementati
 
 
 ```java
+
+package net.iskandar.examples.chat.app.client.mvp;
+
 public interface ChatApplication {
 	ChatFacadeAsync getChatFacade();
 	ViewFactory getViewFactory();
@@ -59,6 +62,22 @@ public interface ViewFactory {
 	ChatView createChatView();
 }
 ````
+
+There is also internal Chat application interface used by chat-app internal components such as `net.iskandar.examples.chat.app.client.mvp.activities.ChatActivity`:
+
+```java
+package net.iskandar.examples.chat.app.client.mvp;
+
+
+public interface ChatApplicationInternal extends ChatApplication {
+	EventBus getEventBus();
+	ChatView getChatView();
+	PlaceController getPlaceController();
+	ChatModel getChatModel();
+}
+````
+
+
 
 
 ```java

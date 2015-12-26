@@ -2,7 +2,6 @@ package net.iskandar.examples.chat.app.client.mvp;
 
 import net.iskandar.examples.chat.app.client.ChatFacadeAsync;
 import net.iskandar.examples.chat.app.client.mvp.views.ViewFactory;
-
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
 public interface ChatApplication {

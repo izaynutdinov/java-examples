@@ -1,4 +1,4 @@
-# chat-smartgwt - GWT/SmartGWT/chat-app runtime based chat application
+# chat-gxt - GWT/Sencha GXT/chat-app runtime based chat application
 
 ## Compiling
 
@@ -24,7 +24,7 @@ Then open http://localhost:8080/index.mvc in Web Browser.
 To run chat-gxt using Tomcat 8 first install Tomcat 8. Then set `CATALINA_HOME` environment variable so that it points to your Tomcat 8 installation. Then execute this commands in linux command line:
 
 ````
-$ cp target/chat-smartgwt-1.0.war $CATALINA_HOME/webapps/chat-smartgwt.war
+$ cp target/chat-gxt-1.0.war $CATALINA_HOME/webapps/chat-gxt.war
 $ $CATALINA_HOME/bin/catalina.sh run
 ````
 
