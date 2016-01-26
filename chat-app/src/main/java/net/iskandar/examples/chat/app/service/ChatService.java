@@ -18,23 +18,8 @@ public interface ChatService {
 	
 	List<ChatUser> getChatUsers(User user, Integer chatId) throws ChatServiceException;
 
-	/**
-	 * Returns chat messages for last n days
-	 * @param user
-	 * @param chat
-	 * @param days
-	 * @return
-	 * @throws ChatServiceException
-	 */
 	ChatMessages getChatMessages(User user, Integer chatId, int days) throws ChatServiceException;
-	
-	/**
-	 * Returns chat messages from the beginning
-	 * @param user
-	 * @param chat
-	 * @return
-	 * @throws ChatServiceException
-	 */
+
 	List<ChatMessage> getAllChatMessages(User user, Chat chat) throws ChatServiceException;
 	List<ChatMessage> updateChatMessages(User user, Integer[] chatIds, Integer lastMessageId) throws ChatServiceException;
 	

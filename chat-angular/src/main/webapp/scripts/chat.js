@@ -6,7 +6,7 @@ function MainController($scope, $http, $sce, $location){
 	
 	$scope.setCurrentChat = function(chat){
 		$scope.currentChat = chat;
-		$location.path("/chat/" + chat.id);		
+		$location.path("/chat/" + chat.id);
 	}
 }
 

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<persistence version="2.1"
+             xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+                                 http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+             
+    <persistence-unit name="net.iskandar.examples.project_management">
+
+        <description>
+            Persistence unit for project management example
+        </description>
+
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+        <class>net.iskandar.examples.project_management.domain.Document</class>
+        <class>net.iskandar.examples.project_management.domain.Role</class>
+        <class>net.iskandar.examples.project_management.domain.Employee</class>
+        <class>net.iskandar.examples.project_management.domain.EmployeeRole</class>
+        <class>net.iskandar.examples.project_management.domain.Project</class>
+        <class>net.iskandar.examples.project_management.domain.ProjectDocument</class>
+        <class>net.iskandar.examples.project_management.domain.ProjectMember</class>
+        <class>net.iskandar.examples.project_management.domain.Task</class>
+
+
+        <properties>
+            <property name="hibernate.show_sql" value="true" />
+            <property name="hibernate.hbm2ddl.auto" value="validate" />
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect" />
+            <property name="hibernate.search.default.directory_provider"
+                      value="filesystem"/>
+            <property name="hibernate.search.default.indexBase"
+                      value="${user.home}/ProjectManagement/indexBase"/>
+            
+        </properties>
+
+    </persistence-unit>
+             
+</persistence>

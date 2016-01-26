@@ -1,0 +1,163 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="./WEB-INF/templates/main-menu.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:t="http://myfaces.apache.org/tomahawk"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+    <ui:define name="metadata">
+        <f:metadata>
+            <f:viewParam name="brcmb" value="#{breadCrumbBean.state}" />
+        </f:metadata>
+    </ui:define>            
+
+    <ui:define name="buttons">
+        <ez:has-role object="#{projectBean.project}" role="MANAGER">
+            <p:button value="Edit" 
+                      href="editProject.jsf?brcmb=#{breadCrumbBean.getStateEditProject(projectBean.project)}" 
+                      style="margin-left: 5px;" />
+            <p:commandButton ajax="false" action="#{projectBean.deleteProject}" 
+                             value="Delete" style="margin-left: 5px;" />
+        </ez:has-role>
+    </ui:define>
+
+    <ui:define name="pm-content">
+
+        <p:panelGrid columns="2" style="width: 400px; float:left;">
+            <f:facet name="header">
+                <h:panelGroup layout="block" style="padding: 10px;">
+                    Project Details
+                </h:panelGroup>
+
+            </f:facet>
+
+            <h:outputLabel value="Title:" style="font-weight: bold;" />
+            <h:outputText value="${projectBean.project.title}" />
+
+            <h:outputLabel value="Description:" style="font-weight: bold;" />
+            <h:outputText value="${projectBean.project.description}" />
+
+            <h:outputLabel value="Manager:" style="font-weight: bold;" />
+            <ez:view-employee emp="#{projectBean.project.manager}" />
+
+            <h:outputLabel value="Members:" style="font-weight: bold;" />
+            <h:panelGroup id="membersPanel" layout="block">
+
+                <p:dataList value="#{projectBean.project.members}" var="member" emptyMessage="This project has no members">
+                    <ez:view-employee emp="#{member}" />
+                </p:dataList>
+
+                <h:panelGrid columns="2">
+                    <p:selectOneMenu id="newMember" value="#{projectBean.employeeId}" style="width: 125px;">
+                        <f:selectItem itemValue="" itemLabel="Please select" />
+                        <f:selectItems value="#{projectBean.employeesNotMembers}" 
+                                       var="e" itemValue="#{e.id}" itemLabel="#{e.fullName}" />
+                    </p:selectOneMenu>
+                    <p:commandButton value="Add Member" process="newMember,@this" update="membersPanel" 
+                                     actionListener="#{projectBean.addMember}" />
+                </h:panelGrid>
+
+            </h:panelGroup>
+
+
+            <h:outputLabel value="Start Date:" style="font-weight: bold;" />
+            <h:outputText value="${projectBean.project.startDate}">
+                <f:convertDateTime type="date" dateStyle="medium" />
+            </h:outputText>
+
+            <h:outputLabel value="End Date:" style="font-weight: bold;" />
+            <h:outputText value="${projectBean.project.endDate}">
+                <f:convertDateTime type="date" dateStyle="medium" />
+            </h:outputText>
+
+
+        </p:panelGrid>
+
+
+        <p:panelGrid columns="1" style="width: 590px; float: left; margin-left: 10px;">
+            <f:facet name="header">
+                <div style="padding: 10px;">
+                    Project Documents
+                </div>
+            </f:facet>
+            <ui:repeat rendered="#{fn:length(projectBean.documents) != 0}" var="pd" value="#{projectBean.documents}">
+                <p:panelGrid style="width:100%; margin-top: 5px;margin-bottom: 5px;">
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="#{pd.title}" style="font-weight: bold;" />
+                        </p:column>
+                        <p:column style="width: 50px;">
+                            <h:outputLink target="blank" value="download?id=#{pd.document.id}">Download</h:outputLink>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="2">
+                            <h:outputText value="#{pd.description}" />
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+
+            </ui:repeat>
+
+            <h:panelGroup layout="block" rendered="#{fn:length(projectBean.documents) == 0}"
+                          style="font-size: 11pt; width: 100%; text-align:center; padding: 20px; box-sizing: border-box; font-style: italic;">
+                <h:outputText value="There is no documents in this project" />
+            </h:panelGroup>
+
+
+
+            <p:panelGrid style="width: 100%;">
+                <p:row>
+                    <p:column>
+                        <h:outputText style="font-weight: bold;" value="Add new document" />
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <h:panelGrid columns="2">
+                            <h:outputLabel style="font-weight: bold;" value="Title:" />
+                            <p:inputText id="title" value="#{projectBean.pdTitle}" style="width: 450px;" required="true" />
+
+                            <h:outputLabel />
+                            <p:message for="title" />
+
+                            <h:outputLabel style="font-weight: bold;" value="Description:" />
+                            <p:inputTextarea id="description" value="#{projectBean.pdDescription}" style="width: 450px;" required="true" />
+
+                            <h:outputLabel />
+                            <p:message for="description" />
+
+                            <h:outputLabel style="font-weight: bold;" value="File:"  />
+                            <h:inputFile id="uploadedFile" value="#{projectBean.uploadedFile}" 
+                                         required="true"  />
+
+                            <h:outputLabel />
+                            <p:message for="uploadedFile" />
+                        </h:panelGrid>
+                    </p:column>
+                </p:row>
+
+                <p:row>
+                    <p:column>
+                        <h:panelGroup layout="block" styleClass="button-panel">
+                            <p:commandButton value="Upload" ajax="false" action="#{projectBean.addProjectDocument}" />
+                        </h:panelGroup>
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+
+        </p:panelGrid>
+
+        <div style="clear:both;">
+
+        </div>
+
+
+    </ui:define>
+
+</ui:composition>

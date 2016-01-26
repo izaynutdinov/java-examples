@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="object" required="false" />
+        <cc:attribute name="role" required="true" />
+        <cc:attribute name="placeholder" required="false" />
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <c:choose>
+            <c:when test="#{not empty cc.attrs.object}">
+                <c:choose>
+                    <c:when test="#{authenticator.hasRole(cc.attrs.object, cc.attrs.role)}">
+                        <cc:insertChildren />
+                    </c:when>
+                    <c:otherwise>
+                        <c:if test="#{not empty cc.attrs.placeholder}">
+                            <div style="width: 100%;margin-top: 100px;text-align: center; vertical-align: middle;font-size: 12pt;" class="ui-widget">
+                                #{cc.attrs.placeholder}
+                            </div>
+                        </c:if>
+                    </c:otherwise>
+                </c:choose>
+            </c:when>
+            <c:otherwise>
+                <c:choose>
+                    <c:when test="#{authenticator.hasRole(cc.attrs.role)}">
+                        <cc:insertChildren />
+                    </c:when>
+                    <c:otherwise>
+                        <c:if test="#{not empty cc.attrs.placeholder}">
+                            <div style="width: 100%;margin-top: 100px;text-align: center; vertical-align: middle;font-size: 12pt;" class="ui-widget">
+                                #{cc.attrs.placeholder}
+                            </div>
+                        </c:if>
+                    </c:otherwise>
+                </c:choose>
+            </c:otherwise>
+        </c:choose>
+    </cc:implementation>
+</html>

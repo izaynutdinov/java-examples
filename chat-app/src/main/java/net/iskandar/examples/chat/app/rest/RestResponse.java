@@ -40,7 +40,5 @@ public class RestResponse<T> {
 	public void setData(T data) {
 		this.data = data;
 	}
-	
-	
 
 }

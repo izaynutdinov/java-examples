@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="active" required="true"  />
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <ul class="menu">
+            <c:choose>
+                <c:when test="${cc.attrs.active eq 'employees'}">
+                    <li class="menu-selected">
+                        <a href="employees.jsf">Employees</a>
+                    </li>
+                </c:when>
+                <c:otherwise>
+                    <li class="menu">
+                        <a href="employees.jsf">Employees</a>
+                    </li>                    
+                </c:otherwise>
+            </c:choose>
+
+            <c:choose>
+                <c:when test="${cc.attrs.active eq 'projects'}">
+                    <li class="menu-selected">
+                        <a href="projects.jsf">Projects</a>
+                    </li>                
+                </c:when>
+                <c:otherwise>
+                    <li class="menu">
+                        <a href="projects.jsf">Projects</a>
+                    </li>                                    
+                </c:otherwise>
+            </c:choose>
+
+            <li class="menu">
+                <a href="#">Tasks</a>
+            </li>
+            <li class="menu">
+                <a href="#">Timesheets</a>
+            </li>                
+        </ul>        
+
+    </cc:implementation>
+</html>

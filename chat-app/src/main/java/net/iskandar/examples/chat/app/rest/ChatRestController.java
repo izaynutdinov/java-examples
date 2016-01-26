@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ChatRestController {
 
 	private static final Logger log = LogManager.getLogger(ChatRestController.class);
-	
+
 	@Autowired
 	private ChatService chatService;
 
@@ -49,13 +49,13 @@ public class ChatRestController {
 		}
 		return new RestResponse<List<ChatTo>>(result);
 	}
-	
+
 	@RequestMapping(value="/chats/{chatId}", method=RequestMethod.GET, 
 			       produces=MediaType.APPLICATION_JSON_VALUE)
 	public RestResponse<ChatMessagesTo> getChatMessages(HttpServletRequest request, 
 			@PathVariable("chatId") Integer chatId, 
 			@RequestParam(name="days", defaultValue="0") Integer days){
-		log.debug("getChatMessages");
+		log.debug("getChatMessages days=" + days);
 		User user = getCurrentUser(request);
 		if(user == null)
 			return new RestResponse<ChatMessagesTo>(-1, "You are not logged in");
@@ -66,8 +66,9 @@ public class ChatRestController {
 			return new RestResponse<ChatMessagesTo>(-2, "Internal server error");
 		}		
 	}
-	
+
 	public static  class MessageText {
+
 		private String text;
 
 		public String getText() {
@@ -77,8 +78,9 @@ public class ChatRestController {
 		public void setText(String text) {
 			this.text = text;
 		}
+
 	}
-	
+
 	@RequestMapping(value="/chats/{chatId}", method=RequestMethod.POST, 
 				produces=MediaType.APPLICATION_JSON_VALUE, 
 				consumes=MediaType.APPLICATION_JSON_VALUE)

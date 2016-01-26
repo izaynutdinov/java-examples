@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="./WEB-INF/templates/main-menu.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:mcv="http://myfaces.apache.org/commons/validators"
+                xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp">
+
+    <ui:define name="metadata">
+        <f:metadata>
+            <f:viewParam name="brcmb" value="#{breadCrumbBean.state}" />
+        </f:metadata>
+    </ui:define>    
+
+    <ui:define name="pm-content">
+        <ez:has-role role="ADMIN" placeholder="You are not permitted to see this page">
+            <p:panelGrid columns="3">
+
+                <f:facet name="header">
+                    <h:panelGroup layout="block" style="padding: 10px;">
+                        Enter employee details below
+                    </h:panelGroup>
+                </f:facet>
+
+                <p:outputLabel id="loginLabel" for="login" indicateRequired="false">
+                    Login<span style="color: red;">*</span>:
+                </p:outputLabel>
+                <p:inputText id="login" value="#{employeeBean.login}" required="true">
+                    <p:ajax event="blur" process="login" 
+                            update="loginLabel,login,loginMessage" delay="0" />
+                    <f:validateBean />
+                    <f:validator validatorId="login" />
+                </p:inputText>
+                <h:panelGroup style="width: 648px;" layout="block">
+                    <p:message id="loginMessage" for="login" />
+                </h:panelGroup>
+
+                <p:outputLabel id="firstNameLabel" for="firstName" indicateRequired="false">
+                    First name<span style="color: red;">*</span>:
+                </p:outputLabel>
+                <p:inputText id="firstName" value="#{employeeBean.firstName}" required="true">
+                    <p:ajax event="blur" process="firstName" 
+                            update="firstNameLabel,firstName,firstNameMessage" delay="0" />
+                    <f:validateBean />
+                </p:inputText>
+                <h:panelGroup style="width: 500px;" layout="block">                    
+                    <p:message id='firstNameMessage' for="firstName" />
+                </h:panelGroup>
+
+                <p:outputLabel id="lastNameLabel" for="lastName" indicateRequired="false">
+                    Last name<span style="color: red;">*</span>:
+                </p:outputLabel>
+                <p:inputText id="lastName" value="#{employeeBean.lastName}" required="true">
+                    <p:ajax event="blur" process="lastName"
+                            update="lastNameLabel,lastName,lastNameMessage" delay="0" />
+                    <f:validateBean />
+                </p:inputText>
+                <h:panelGroup style="width: 500px;" layout="block">
+                    <p:message id='lastNameMessage' for="lastName" />
+                </h:panelGroup>
+
+                <p:outputLabel id="emailLabel" for="email" indicateRequired="false">
+                    Email<span style="color: red;">*</span>:
+                </p:outputLabel>
+                <p:inputText id="email" value="#{employeeBean.email}" required="true">
+                    <p:ajax event="blur" process="email" update="emailLabel,email,emailMessage" delay="0" />
+                    <f:validateBean />
+                    <f:validator validatorId="emailExist" />
+                </p:inputText>
+                <h:panelGroup style="width: 500px;" layout="block">
+                    <p:message id="emailMessage" for="email" />
+                </h:panelGroup>
+
+                <p:outputLabel id="confirmEmailLabel" for="confirmEmail" indicateRequired="false">
+                    Confirm email<span style="color: red;">*</span>:
+                </p:outputLabel>
+                <p:inputText id="confirmEmail" value="#{employeeBean.confirmEmail}" required="true">
+                    <mcv:validateCompareTo forId="email" 
+                                           detailMessage="Emails doesn''t match" operator="eq" />
+                    <p:ajax event="blur" process="email,confirmEmail" 
+                            update="confirmEmailLabel,confirmEmail,confirmEmailMessage" delay="0" />
+                </p:inputText>
+                <h:panelGroup style="width: 500px;" layout="block">
+                    <p:message id="confirmEmailMessage" for="confirmEmail" />
+                </h:panelGroup>
+
+                <p:outputLabel id="passwordLabel" for="password" indicateRequired="false">
+                    Password<span style="color: red;">*</span>:
+                </p:outputLabel>
+                <p:password id="password" value="#{employeeBean.password}" required="true">
+                    <f:validator validatorId="requiredPassword" />
+                </p:password>
+                <h:panelGroup style="width: 500px;" layout="block">
+                    <p:message id="passwordMessage" for="password" />
+                </h:panelGroup>
+
+                <p:outputLabel id="confirmPasswordLabel" for="confirmPassword" indicateRequired="false">
+                    Confirm password<span style="color: red;">*</span>:
+                </p:outputLabel>
+                <p:password id="confirmPassword" value="#{employeeBean.confirmPassword}" required="true">
+                    <mcv:validateCompareTo forId="password" detailMessage="Passwords doesn''t match" operator="eq" />
+                </p:password>
+                <h:panelGroup style="width: 500px;" layout="block">
+                    <p:message id="confirmPasswordMessage" for="confirmPassword" />
+                </h:panelGroup>
+
+                <f:facet name="footer">
+                    <h:panelGroup style="width: 100%; text-align: center; padding: 10px;" layout="block">
+                        <p:commandButton value="Save" ajax="false" action="#{employeeBean.createEmployee}" />
+                        <span style="width: 20px;"></span>
+                        <ez:back-button value="Cancel" />
+                    </h:panelGroup>
+                </f:facet>
+
+            </p:panelGrid>
+        </ez:has-role>
+
+    </ui:define>
+
+</ui:composition>

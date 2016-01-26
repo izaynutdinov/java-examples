@@ -14,7 +14,7 @@
                            http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
                            http://www.springframework.org/schema/jee
                            http://www.springframework.org/schema/jee/spring-jee-4.2.xsd
-						   http://www.springframework.org/schema/tx
+			   http://www.springframework.org/schema/tx
                            http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
                            http://www.springframework.org/schema/integration
                            http://www.springframework.org/schema/integration/spring-integration-4.2.xsd">

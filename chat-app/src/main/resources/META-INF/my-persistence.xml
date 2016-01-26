@@ -7,7 +7,7 @@
     <persistence-unit name="net.iskandar.examples.chat.persistence">
 
         <description>
-            Persistence unit for the JPA tutorial of the Hibernate Getting Started Guide
+            Persistence unit for Iskandar's chat example
         </description>
 
     	<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>

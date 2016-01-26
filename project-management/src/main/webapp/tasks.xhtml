@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="./WEB-INF/templates/main-menu.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <ui:define name="metadata">
+        <f:metadata>
+            <f:viewParam name="brcmb" value="#{breadCrumbBean.state}" />
+        </f:metadata>        
+    </ui:define>
+
+    <ui:define name="buttons">
+        <p:button value="Add Task" href="addTask.jsf?brcmb=#{breadCrumbBean.stateAddTask}" />
+    </ui:define>
+
+    <ui:define name="pm-content">
+
+        <p:dataTable id="tasksTable" value="#{tasksBean.tasks}" 
+                     var="task" rows="25" paginator="true" 
+                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                     rowsPerPageTemplate="25,50,100" lazy="true"
+                     sortField="modified" sortOrder="descending"
+                     styleClass="table-column"
+                     resizableColumns="true"
+                     rowHover="false" paginatorPosition="both">
+
+            <p:column width="30" headerText="ID"
+                      sortBy="#{task.id}" sortable="true"
+                      styleClass="table-column"
+                      selectRow="false">
+                <h:outputText value="#{task.id}" />
+            </p:column>
+
+            <p:column headerText="Title" width="250" sortBy="#{task.title}"
+                      sortable="true" styleClass="table-column"
+                      selectRow="false">
+                <h:outputLink value="viewTask.jsf?brcmb=#{breadCrumbBean.getStateViewTask(task)}">
+                    <h:outputText value="#{task.titleShort}" />
+                </h:outputLink>
+            </p:column>
+
+            <p:column headerText="Project" width="180" styleClass="table-column"
+                      selectRow="false">
+                <ez:view-project project="#{task.project}" />
+            </p:column>
+
+            <p:column headerText="Assignee" width="120" sortBy="#{task.assignee.fullName}"
+                      sortable="true" styleClass="table-column"
+                      selectRow="false">
+                <ez:view-employee emp="#{task.assignee}" />
+            </p:column>
+
+            <p:column headerText="Modified" sortBy="#{task.modified}"
+                      sortable="true"
+                      styleClass="table-column"
+                      width="150"
+                      selectRow="false">
+                <h:outputText value="#{task.modified}">
+                    <f:convertDateTime type="both" dateStyle="medium" />
+                </h:outputText>
+            </p:column>
+
+        </p:dataTable>
+
+    </ui:define>
+
+</ui:composition>

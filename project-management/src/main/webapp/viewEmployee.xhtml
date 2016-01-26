@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="./WEB-INF/templates/main-menu.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="metadata">
+        <f:metadata>
+            <f:viewParam name="brcmb" value="#{breadCrumbBean.state}" />
+        </f:metadata>        
+    </ui:define>        
+
+    <ui:define name="buttons">
+       <ez:has-role role="ADMIN">
+            <p:button value="Edit" 
+                      href="editEmployee.jsf?brcmb=#{breadCrumbBean.getStateEditEmployee(employeeBean.employee)}"
+                      style="margin-left: 5px;"/>
+            <p:commandButton ajax="false" action="#{employeeBean.deleteEmployee}" 
+                             value="Delete" style="margin-left: 5px;" />                    
+        </ez:has-role>
+    </ui:define>
+
+    <ui:define name="pm-content">
+
+
+        <p:panelGrid columns="2" style="width: 400px; float: left;">
+
+            <f:facet name="header">
+                <h:panelGroup layout="block" style="padding: 10px;">
+                    Employee Details
+                </h:panelGroup>
+            </f:facet>
+
+            <h:outputLabel for="login" value="Login:" style="font-weight: bold;" />
+            <h:outputText value="${employeeBean.employee.login}" />
+
+            <h:outputLabel for="login" value="First name:" style="font-weight: bold;" />
+            <h:outputText value="${employeeBean.employee.firstName}" />
+
+            <h:outputLabel for="login" value="Last name:" style="font-weight: bold;" />
+            <h:outputText value="${employeeBean.employee.lastName}" />
+
+            <h:outputLabel for="login" value="Email:" style="font-weight: bold;" />
+            <h:outputText value="${employeeBean.employee.email}" />
+
+        </p:panelGrid>
+
+        <h:panelGroup style="float: left; margin-left: 10px; width: 550px;">
+            <p:dataTable value="#{employeeBean.employee.projects}" var="project">
+                <p:column>
+                    <f:facet name="header">
+                        <h:panelGroup layout="block" style="padding: 7px;">
+                            Projects
+                        </h:panelGroup>
+                    </f:facet>
+                    <ez:view-project project="#{project}" />
+                </p:column>
+            </p:dataTable>
+        </h:panelGroup>
+
+    </ui:define>
+
+</ui:composition>

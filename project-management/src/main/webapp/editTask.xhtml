@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="./WEB-INF/templates/main-menu.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:t="http://myfaces.apache.org/tomahawk"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+    <ui:define name="metadata">
+        <f:metadata>
+            <f:viewParam name="brcmb" value="#{breadCrumbBean.state}" />
+        </f:metadata>
+    </ui:define>
+
+    <ui:define name="pm-content">
+
+        <p:panelGrid columns="3">
+
+            <f:facet name="header">
+                <h:panelGroup layout="block" style="padding: 10px;">
+                    Change task details below
+                </h:panelGroup>
+            </f:facet>
+
+            <p:outputLabel id="assigneeLabel" for="assignee" indicateRequired="false">
+                Assignee<span style="color:red;">*</span>:
+            </p:outputLabel>
+
+            <p:selectOneMenu id="assignee" value="#{taskBean.assigneeId}"
+                             required="true" requiredMessage="Please select assignee"
+                             style="width: 250px;" >
+                <f:selectItem itemValue="" itemLabel="Please select" />
+                <f:selectItems value="#{taskBean.members}" var="emp" 
+                               itemValue="#{emp.id}" itemLabel="#{emp.fullName}" />
+                <p:ajax event="change" process="assignee" 
+                        update="assigneeLabel,@this,assigneeMessage" delay="0" />
+            </p:selectOneMenu>
+            
+            <h:panelGroup style="width: 500px;" layout="block">
+                <p:message id="assigneeMessage" for="assignee" />
+            </h:panelGroup>            
+
+            <p:outputLabel id="startDateLabel" for="startDate" indicateRequired="false">
+                Start Date<span style="color: red;">*</span>:
+            </p:outputLabel>
+
+            <p:calendar id="startDate" value="#{taskBean.startDate}" required="true" showOn="button">
+                <f:validateBean />
+            </p:calendar>
+
+            <h:panelGroup style="width: 500px;" layout="block">
+                <p:message id="startDateMessage" for="startDate" />
+            </h:panelGroup>
+
+            <p:outputLabel id="endDateLabel" for="endDate" indicateRequired="false">
+                End Date<span style="color: red;">*</span>:
+            </p:outputLabel>
+
+            <p:calendar id="endDate" value="#{taskBean.endDate}" required="true" showOn="button">
+                <f:attribute name="startDateId" value="form:startDate" />
+                <f:validateBean />
+                <f:validator validatorId="dateAfter" />
+            </p:calendar>
+
+            <h:panelGroup style="width: 500px;" layout="block">
+                <p:message id="endDateMessage" for="endDate" />
+            </h:panelGroup>            
+
+            <f:facet name="footer">
+                <h:panelGroup style="width: 100%; text-align: center; padding: 10px;" layout="block">
+                    <p:commandButton value="Save" ajax="false" action="#{taskBean.updateTask}" />
+                    <span style="width: 20px;"></span>
+                    <ez:back-button value="Cancel" />
+                </h:panelGroup>
+            </f:facet>            
+
+        </p:panelGrid>
+        
+        
+    </ui:define>
+
+</ui:composition>

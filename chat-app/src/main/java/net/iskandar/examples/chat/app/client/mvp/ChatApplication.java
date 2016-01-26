@@ -9,7 +9,7 @@ public interface ChatApplication {
 	ViewFactory getViewFactory();
 	ChatMessageRenderer getChatMessageRenderer();
 	Integer getDefaultChatId();
-	void setDefaultChatId(Integer defaultChatId);	
+	void setDefaultChatId(Integer defaultChatId);
 	void setChatMessageRenderer(ChatMessageRenderer chatMessageRederer);
-	void init(AcceptsOneWidget centerWidget, ViewFactory viewFactory);	
+	void init(AcceptsOneWidget centerWidget, ViewFactory viewFactory);
 }

@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="main-menu.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
+                xmlns:p="http://primefaces.org/ui">
+
+
+    <ui:define name="pm-content">
+
+        <p:panelGrid columns="3">
+
+            <f:facet name="header">
+                <h:panelGroup layout="block" style="padding: 10px;">
+                    Enter project details below
+                </h:panelGroup>
+            </f:facet>
+
+            <p:outputLabel id="titleLabel" for="title" indicateRequired="false">
+                Title<span style="color: red;">*</span>:
+            </p:outputLabel>
+
+            <p:inputText id="title" value="#{projectBean.title}" required="true" style="width: 200px;">
+                <p:ajax event="blur" process="form:title" 
+                        update="form:titleLabel,form:title,form:titleMessage" delay="0" />
+                <f:validateBean />
+            </p:inputText>
+
+            <h:panelGroup style="width: 630px;" layout="block">
+                <p:message id="titleMessage" for="title" />
+            </h:panelGroup>
+
+
+            <p:outputLabel id="descriptionLabel" for="description" indicateRequired="false">
+                Description<span style="color: red;">*</span>:
+            </p:outputLabel>
+
+            <p:inputTextarea id="description" value="#{projectBean.description}" required="true" style="width: 200px;">
+                <p:ajax event="blur" process="form:description" 
+                        update="form:descriptionLabel,form:description,form:descriptionMessage" delay="0" />
+                <f:validateBean />
+            </p:inputTextarea>
+
+            <h:panelGroup style="width: 500px;" layout="block">
+                <p:message id="descriptionMessage" for="description" />
+            </h:panelGroup>
+
+            <p:outputLabel id="managerLabel" for="manager" indicateRequired="false">
+                Manager<span style="color: red;">*</span>:
+            </p:outputLabel>
+
+            <p:selectOneMenu id="manager" value="#{projectBean.managerId}" 
+                             style="width: 182px;" required="true"
+                             requiredMessage="Please select manager">
+                <f:selectItem itemValue="" itemLabel="Please select" />
+                <f:selectItems value="#{projectBean.managers}" 
+                               var="m" itemLabel="#{m.fullName}" itemValue="#{m.id}" />
+                <p:ajax event="change" process="form:manager" 
+                        update="form:managerLabel,form:manager,form:managerMessage" delay="0" />
+            </p:selectOneMenu>
+
+            <h:panelGroup style="width: 500px;" layout="block">
+                <p:message id="managerMessage" for="manager" />
+            </h:panelGroup>                    
+
+
+            <p:outputLabel id="startDateLabel" for="startDate" indicateRequired="false">
+                Start Date<span style="color: red;">*</span>:
+            </p:outputLabel>
+
+            <p:calendar id="startDate" value="#{projectBean.startDate}" required="true" showOn="button">
+                <f:validateBean />
+            </p:calendar>
+
+            <h:panelGroup style="width: 500px;" layout="block">
+                <p:message id="startDateMessage" for="startDate" />
+            </h:panelGroup>
+
+            <p:outputLabel id="endDateLabel" for="endDate" indicateRequired="false">
+                End Date<span style="color: red;">*</span>:
+            </p:outputLabel>
+
+            <p:calendar id="endDate" value="#{projectBean.endDate}" required="true" showOn="button">
+                <f:attribute name="startDateId" value="form:startDate" />
+                <f:validateBean />
+                <f:validator validatorId="dateAfter" />
+            </p:calendar>
+
+            <h:panelGroup style="width: 500px;" layout="block">
+                <p:message id="endDateMessage" for="endDate" />
+            </h:panelGroup>
+
+            <f:facet name="footer">
+                <ui:insert name="footer" />
+            </f:facet>                    
+
+        </p:panelGrid>
+
+    </ui:define>
+
+</ui:composition>

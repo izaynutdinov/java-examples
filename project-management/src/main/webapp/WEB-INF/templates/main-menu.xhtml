@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:t="http://myfaces.apache.org/tomahawk"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp">
+
+    <f:view>
+        <ui:insert name="metadata">
+
+        </ui:insert>
+        <t:saveState id="state" value="#{breadCrumbBean.stateBinary}" />        
+        <h:head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <h:outputStylesheet name="/css/style.css" />
+            <title>Project Management Sample</title>
+        </h:head>
+
+        <h:body>
+
+            <div id="full-size">
+                <div class="header">
+                    <div style="float: left; padding: 10px;">Welcome, #{loginBean.employee.fullName}</div>
+                    <div style="float: right; padding: 10px; font-size: 10pt;">
+                        <h:form id="signInForm">
+                            <h:panelGrid columns="2">
+                                <p:selectOneMenu value="#{loginBean.employeeId}">
+                                    <f:selectItems value="#{loginBean.employees}" var="emp"
+                                                   itemValue="#{emp.id}" itemLabel="#{emp.fullName}" />
+                                </p:selectOneMenu>
+                                <p:commandButton value="Sign In" ajax="false" action="#{loginBean.signIn}" />
+                            </h:panelGrid>
+                        </h:form>
+                    </div>
+                    <div style="clear: both;"></div>
+                </div>
+
+                <div>
+                    <div id="menu">
+                        <ez:main-menu active="#{breadCrumbBean.first.viewName}" />
+                    </div>
+                    <div class="pm-body">
+                        <h:form id="brcmb-form">
+                            <div class="pm-breadcrumb">
+                                <t:dataList var="item" value="#{breadCrumbBean.items}" 
+                                            rowCountVar="rowCount" rowIndexVar="rowIndex">
+                                    <span style="display: inline-block;">
+                                        <h:panelGroup rendered="#{rowIndex gt 0}">
+                                            &#10148;
+                                        </h:panelGroup>
+                                        <h:panelGroup class="ui-widget" rendered="#{rowIndex eq (rowCount - 1)}">
+                                            #{item.label}
+                                        </h:panelGroup>
+                                        <h:panelGroup rendered="#{rowIndex lt (rowCount - 1)}">
+                                            <p:commandLink value="#{item.label}" action="#{breadCrumbBean.navigate(item)}"
+                                                           ajax="false" immediate="true" />
+                                        </h:panelGroup>
+                                    </span>
+                                </t:dataList>
+                            </div>
+                        </h:form>
+                        <h:form id="form" enctype="multipart/form-data">
+                            <div class="pm-content" style="font-size: small;">
+                                <div class="toolbar" id="toolbar">
+                                    <p:toolbar style="height: 25px;">
+                                        <f:facet name="left">
+                                            <p:commandButton rendered="#{breadCrumbBean.items.size() gt 1}" 
+                                                             icon="ui-icon-arrowreturnthick-1-w" value="Back"
+                                                             action="#{breadCrumbBean.navigateBack}" ajax="false" immediate="true" />
+
+                                            <ui:insert name="buttons" />
+                                        </f:facet>
+
+                                        <f:facet name="right">
+                                        </f:facet>
+
+                                    </p:toolbar>                                
+                                </div>
+                                <ui:insert name="pm-content" />
+                            </div>
+                        </h:form>
+                    </div>
+                    <div style="clear: both;"></div>
+                </div>
+
+                <div class="footer">
+                    <div style="padding: 10px; width: 100%; text-align:center;">Copyright &copy; Iskandar Zaynutdinov 2015</div>
+                </div>
+
+            </div>
+
+
+        </h:body>
+    </f:view>
+</html>

@@ -1,0 +1,239 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="./WEB-INF/templates/main-menu.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:mcv="http://myfaces.apache.org/commons/validators"
+                xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
+                xmlns:t="http://myfaces.apache.org/tomahawk">
+
+    <ui:define name="metadata">
+        <f:metadata>
+            <f:viewParam name="brcmb" value="#{breadCrumbBean.state}" />
+        </f:metadata>        
+    </ui:define>            
+
+    <ui:define name="pm-content">
+        <ez:has-role role="ADMIN" placeholder="You are not permitted to see this page">
+            <p:panelGrid>
+                <p:row>
+                    <p:column>
+                        <p:outputLabel id="loginLabel" for="login" indicateRequired="false">
+                            Login<span style="color: red;">*</span>:
+                        </p:outputLabel>
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="login" value="#{employeeBean.login}" required="true">
+                            <f:attribute name="employeeId" value="${employeeBean.employeeId}" />
+                            <p:ajax event="blur" process="login" 
+                                    update="loginLabel,login,loginMessage" delay="0" />
+                            <f:validateBean />
+                            <f:validator validatorId="login" />
+                        </p:inputText>                    
+                    </p:column>
+                    <p:column>
+                        <h:panelGroup style="width: 647px;" layout="block">
+                            <p:message id="loginMessage" for="login" />
+                        </h:panelGroup>                    
+                    </p:column>
+                </p:row>
+
+                <p:row>
+                    <p:column>
+                        <p:outputLabel id="rolesLabel" for="login" indicateRequired="false">
+                            Roles<span style="color: red;">*</span>:
+                        </p:outputLabel>                    
+                    </p:column>
+                    <p:column>
+                        <p:selectManyCheckbox id="roles"
+                                              value="#{employeeBean.selectedRoles}"
+                                              layout="pageDirection">
+                            <f:selectItems value="#{employeeBean.roles}" var="r" 
+                                           itemLabel="#{r.title}" itemValue="#{r}" />
+                            <f:converter binding="#{converterBean.roleConverter}" />
+                        </p:selectManyCheckbox>
+                    </p:column>
+                    <p:column>
+                        <h:panelGroup style="width: 500px;" layout="block">
+                            <p:message id="rolesMessage" for="roles" />
+                        </h:panelGroup>                    
+                    </p:column>
+                </p:row>
+
+
+
+                <p:row>
+                    <p:column>
+                        <p:outputLabel id="firstNameLabel" for="firstName" indicateRequired="false">
+                            First name<span style="color: red;">*</span>:
+                        </p:outputLabel>
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="firstName" value="#{employeeBean.firstName}" required="true">
+                            <p:ajax event="blur" process="firstName" 
+                                    update="firstNameLabel,firstName,firstNameMessage" delay="0" />
+                            <f:validateBean />
+                        </p:inputText>
+                    </p:column>
+                    <p:column>
+                        <h:panelGroup style="width: 500px;" layout="block">                    
+                            <p:message id='firstNameMessage' for="firstName" />
+                        </h:panelGroup>
+                    </p:column>
+                </p:row>
+
+                <p:row>
+                    <p:column>
+                        <p:outputLabel id="lastNameLabel" for="lastName" indicateRequired="false">
+                            Last name<span style="color: red;">*</span>:
+                        </p:outputLabel>
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="lastName" value="#{employeeBean.lastName}" required="true">
+                            <p:ajax event="blur" process="lastName"
+                                    update="lastNameLabel,lastName,lastNameMessage" delay="0" />
+                            <f:validateBean />
+                        </p:inputText>
+                    </p:column>
+                    <p:column>
+                        <h:panelGroup style="width: 500px;" layout="block">
+                            <p:message id='lastNameMessage' for="lastName" />
+                        </h:panelGroup>
+                    </p:column>
+
+                </p:row>
+
+                <p:row>
+                    <p:column>
+                        Email:
+                    </p:column>
+                    <p:column colspan="2">
+                        <h:outputText value="#{employeeBean.email}" />
+                    </p:column>
+                </p:row>
+
+                <p:row>
+                    <p:column colspan="3">
+                        <h:outputText style="font-weight: bold;" value="Enter the values below to change user's email" />
+                    </p:column>
+                </p:row>
+
+                <p:row>
+
+                    <p:column style="text-align: right;">
+                        <p:outputLabel id="emailLabel" for="email" indicateRequired="false">
+                            New email:
+                        </p:outputLabel>
+                    </p:column>
+
+                    <p:column>
+                        <p:inputText id="email" value="#{employeeBean.newEmail}">
+                            <p:ajax event="blur" process="email" update="emailLabel,email,emailMessage" delay="0" />
+                            <f:attribute name="employeeId" value="${employeeBean.employeeId}" />                        
+                            <f:validator validatorId="emailExist" />
+                        </p:inputText>
+                    </p:column>
+
+                    <p:column>
+                        <h:panelGroup style="width: 500px;" layout="block">
+                            <p:message id="emailMessage" for="email" />
+                        </h:panelGroup>
+                    </p:column>
+
+                </p:row>
+
+                <p:row>
+
+                    <p:column style="text-align: right;">
+                        <p:outputLabel id="confirmEmailLabel" for="confirmEmail" indicateRequired="false">
+                            Confirm email:
+                        </p:outputLabel>
+                    </p:column>
+
+                    <p:column>
+                        <p:inputText id="confirmEmail" value="#{employeeBean.confirmEmail}">
+                            <mcv:validateCompareTo forId="email" 
+                                                      detailMessage="Emails doesn''t match" operator="eq" />
+                            <p:ajax event="blur" process="email,confirmEmail" 
+                                     update="confirmEmailLabel,confirmEmail,confirmEmailMessage" delay="0" />
+                        </p:inputText>
+                    </p:column>
+
+                    <p:column>
+                        <h:panelGroup style="width: 500px;" layout="block">
+                            <p:message id="confirmEmailMessage" for="confirmEmail" />
+                        </h:panelGroup>
+                    </p:column>
+
+                </p:row>
+
+                <p:row>
+                    <p:column colspan="3">
+                        <h:outputText style="font-weight: bold;" value="Enter the values below to change user's password" />
+                    </p:column>
+                </p:row>
+
+                <p:row>
+
+                    <p:column style="text-align: right;">
+                        <p:outputLabel id="passwordLabel" for="password" indicateRequired="false">
+                            Password:
+                        </p:outputLabel>
+                    </p:column>
+
+                    <p:column>
+                        <p:password id="password" value="#{employeeBean.newPassword}">
+                            <f:validator validatorId="password" />
+                        </p:password>
+                    </p:column>
+
+                    <p:column>
+                        <h:panelGroup style="width: 500px;" layout="block">
+                            <p:message id="passwordMessage" for="password" />
+                        </h:panelGroup>
+                    </p:column>
+
+                </p:row>
+
+                <p:row>
+
+                    <p:column style="text-align: right;">
+                        <p:outputLabel id="confirmPasswordLabel" for="confirmPassword" indicateRequired="false">
+                            Confirm password:
+                        </p:outputLabel>
+                    </p:column>
+
+                    <p:column>
+                        <p:password id="confirmPassword" value="#{employeeBean.confirmPassword}">
+                            <mcv:validateCompareTo forId="password" detailMessage="Passwords doesn''t match" operator="eq" />
+                        </p:password>
+                    </p:column>
+
+                    <p:column>
+                        <h:panelGroup style="width: 500px;" layout="block">
+                            <p:message id="confirmPasswordMessage" for="confirmPassword" />
+                        </h:panelGroup>
+                    </p:column>
+
+                </p:row>
+
+                <p:row>
+                    <p:column colspan="3">
+                        <h:panelGroup style="width: 100%; text-align: center; padding: 10px;" layout="block">
+                            <p:commandButton value="Save" ajax="false" action="#{employeeBean.updateEmployee}" />
+                            <span style="width: 20px;"></span>
+                            <ez:back-button value="Cancel" />
+                        </h:panelGroup>
+                    </p:column>
+                </p:row>
+
+            </p:panelGrid>
+
+        </ez:has-role>
+
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="./WEB-INF/templates/main-menu.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp">
+
+    <ui:define name="metadata">
+        <f:metadata>
+            <f:viewParam name="brcmb" value="#{breadCrumbBean.state}" />
+        </f:metadata>        
+    </ui:define>
+
+    <ui:define name="buttons">
+        <ez:has-role role="ADMIN">
+            <p:button value="Add Employee" href="addEmployee.jsf?brcmb=#{breadCrumbBean.stateAddEmployee}" />            
+        </ez:has-role>
+    </ui:define>
+    
+    <ui:define name="pm-content">
+
+        <p:dataTable id="employeesTable" value="#{employeesBean.employees}" 
+                     var="emp" rows="25" paginator="true" 
+                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                     rowsPerPageTemplate="25,50,100" lazy="true"
+                     sortField="id" sortOrder="ascending"
+                     rowKey="#{emp.id}" selection="#{employeesBean.selectedEmployees}"
+                     styleClass="table-column"
+                     resizableColumns="true"
+                     rowHover="false" paginatorPosition="both">
+
+            <p:column width="30" headerText="ID"
+                      sortBy="#{emp.id}" sortable="true"
+                      styleClass="table-column"
+                      selectRow="false">
+                <h:outputText value="#{emp.id}" />
+            </p:column>
+
+            <p:column headerText="Login" width="180" sortBy="#{emp.login}" 
+                      sortable="true" styleClass="table-column"
+                      selectRow="false">
+                <h:outputLink value="viewEmployee.jsf?brcmb=#{breadCrumbBean.getStateViewEmployee(emp)}">
+                    <h:outputText value="#{emp.login}" />
+                </h:outputLink>
+            </p:column>
+
+            <p:column headerText="First Name" width="120" sortBy="#{emp.firstName}" 
+                      sortable="true" styleClass="table-column"
+                      selectRow="false">
+                <h:outputText value="#{emp.firstName}" />
+            </p:column>
+
+            <p:column headerText="Last Name" width="120" sortBy="#{emp.lastName}" 
+                      sortable="true"
+                      styleClass="table-column"
+                      selectRow="false">
+                <h:outputText value="#{emp.lastName}" />
+            </p:column>
+
+            <p:column headerText="Email" sortBy="#{emp.email}"
+                      sortable="true"
+                      styleClass="table-column"
+                      width="210"
+                      selectRow="false">
+                <h:outputText value="#{emp.email}" />
+            </p:column>
+
+            <p:column headerText="Modified" sortBy="#{emp.email}"
+                      sortable="true"
+                      styleClass="table-column"
+                      width="150"
+                      selectRow="false">
+                <h:outputText value="#{emp.modified}">
+                    <f:convertDateTime type="both" dateStyle="medium" />
+                </h:outputText>
+            </p:column>
+
+        </p:dataTable>
+
+    </ui:define>
+
+</ui:composition>
