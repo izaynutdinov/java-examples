@@ -11,3 +11,4 @@ Project Name               | Description
 **chat-smartgwt**          | Chat Application using GWT/SmartGWT and chat-app common chat runtime
 **chat-gxt**               | Chat Application using GWT/Sencha GXT and chat-app common chat runtime
 **chat-angular**           | Chat Application implemented using Angular.JS JavaScript framework and chat-app common chat runtime
+**project-management**     | Small Project Management Application using Java, Spring, JPA/Hibernate, Java Server Faces and Primefaces

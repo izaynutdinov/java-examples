@@ -54,13 +54,13 @@ public class ProjectManagementServiceImpl implements ProjectManagementService {
 
     @Autowired
     private TaskDao taskDao;
-    
+
     @Autowired
     private DocumentDao documentDao;
-    
+
     @Autowired
     private Authenticator authenticator;
-    
+
     public ProjectManagementServiceImpl() {
         String userHome = System.getProperty("user.home");
         log.debug("User Home: " + userHome);

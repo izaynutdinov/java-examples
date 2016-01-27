@@ -20,8 +20,8 @@ public interface ProjectManagementService {
     void addMemberToProject(Project project, Integer employeeId) throws ProjectManagementException;
     void addDocumentToProject(Project project, String title, 
                   String description, Document document) throws ProjectManagementException;
-    
-    
+
+
     Integer createTask(Task task) throws ProjectManagementException;
     void updateTask(Task task) throws ProjectManagementException;
 

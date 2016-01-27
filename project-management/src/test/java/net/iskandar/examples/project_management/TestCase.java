@@ -8,12 +8,14 @@ package net.iskandar.examples.project_management;
 import javax.annotation.security.RunAs;
 import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.internal.runners.JUnit4ClassRunner;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+
 import org.junit.runners.Suite;
 
 /**
@@ -25,32 +27,33 @@ public class TestCase {
 
     @BeforeClass
     public static void beforeClass(){
-        System.out.println("===================================== before class ======================================================");
+
     }
 
     @AfterClass
     public static void afterClass(){
-        System.out.println("===================================== after class =======================================================");
+
     }
 
     @Before
     public void setUp(){
-        System.out.println("===================================== setUp =============================================================");
+
     }
     
     @After
     public void tearDown(){
-        System.out.println("===================================== tearDown ==========================================================");
+
     }
 
     @Test
     public void test1(){
-        System.out.println("===================================== test1 =============================================================");
+        System.err.println("TEST OUTPUT");
+        Assert.fail("Failed!");
     }
     
     @Test
     public void test2(){
-        System.out.println("===================================== test2 =============================================================");
+        Assert.fail("Failed!");
     }
     
 }

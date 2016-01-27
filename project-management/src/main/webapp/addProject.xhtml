@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<ui:composition template="./WEB-INF/templates/edit-project-template.xhtml"
+<ui:composition template="./WEB-INF/templates/main-menu.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
@@ -14,13 +14,19 @@
             <f:viewParam name="brcmb" value="#{breadCrumbBean.state}" />
         </f:metadata>        
     </ui:define>    
-    
-    <ui:define name="footer">
-        <h:panelGroup style="width: 100%; text-align: center; padding: 10px;" layout="block">
-            <p:commandButton value="Save" ajax="false" action="#{projectBean.createProject}" />
-            <span style="width: 20px;"></span>
-            <ez:back-button value="Cancel" />
-        </h:panelGroup>
+
+    <ui:define name="pm-content">
+        <ez:has-role role="MANAGER">
+            <ez:project-panel>
+                <f:facet name="buttons">
+                    <h:panelGroup style="width: 100%; text-align: center; padding: 10px;" layout="block">
+                        <p:commandButton value="Save" ajax="false" action="#{projectBean.createProject}" />
+                        <span style="width: 20px;"></span>
+                        <ez:back-button value="Cancel" />
+                    </h:panelGroup>
+                </f:facet>
+            </ez:project-panel>
+        </ez:has-role>
     </ui:define>
 
 </ui:composition>
