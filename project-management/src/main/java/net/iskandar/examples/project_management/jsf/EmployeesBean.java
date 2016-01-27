@@ -47,7 +47,6 @@ public class EmployeesBean extends BaseListBean<Employee> {
     private EmployeeDao employeeDao;
     
     private List<Employee> selectedEmployees;
-    private EmployeeAttrs attrs;
 
     public EmployeeDao getEmployeeDao() {
         return employeeDao;
@@ -65,14 +64,6 @@ public class EmployeesBean extends BaseListBean<Employee> {
         this.selectedEmployees = selectedEmployees;
     }
 
-    public EmployeeAttrs getAttrs() {
-        return attrs;
-    }
-
-    public void setAttrs(EmployeeAttrs attrs) {
-        this.attrs = attrs;
-    }
-
     @Override
     protected ListLoader<Employee> getLoader() {
         return getEmployeeDao();
@@ -80,46 +71,6 @@ public class EmployeesBean extends BaseListBean<Employee> {
     
     public LazyDataModel<Employee> getEmployees(){
         return getLazyModel();
-    }
-    
-    public String deleteSelected(){
-        return "";
-    }
-    
-    public void onDeleteSelected(ActionEvent evt){
-        
-    }
-    
-    public static class EmployeeAttrs {
-
-        private String login;
-        private String firstName;
-        private String lastName;
-
-        public String getLogin() {
-            return login;
-        }
-
-        public void setLogin(String login) {
-            this.login = login;
-        }
-
-        public String getFirstName() {
-            return firstName;
-        }
-
-        public void setFirstName(String firstName) {
-            this.firstName = firstName;
-        }
-
-        public String getLastName() {
-            return lastName;
-        }
-
-        public void setLastName(String lastName) {
-            this.lastName = lastName;
-        }
-        
     }
 
 }
