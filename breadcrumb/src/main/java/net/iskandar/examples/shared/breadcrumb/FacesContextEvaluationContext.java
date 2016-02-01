@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.iskandar.examples.shared.jsf.breadcrumb;
+package net.iskandar.examples.shared.breadcrumb;
 
 import javax.faces.context.FacesContext;
 

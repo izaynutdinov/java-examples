@@ -51,17 +51,17 @@
                 <p:dataList value="#{projectBean.project.members}" var="member" emptyMessage="This project has no members">
                     <ez:view-employee emp="#{member}" />
                 </p:dataList>
-
-                <h:panelGrid columns="2">
-                    <p:selectOneMenu id="newMember" value="#{projectBean.employeeId}" style="width: 125px;">
-                        <f:selectItem itemValue="" itemLabel="Please select" />
-                        <f:selectItems value="#{projectBean.employeesNotMembers}" 
-                                       var="e" itemValue="#{e.id}" itemLabel="#{e.fullName}" />
-                    </p:selectOneMenu>
-                    <p:commandButton value="Add Member" process="newMember,@this" update="membersPanel" 
-                                     actionListener="#{projectBean.addMember}" />
-                </h:panelGrid>
-
+                <ez:has-role role="MANAGER" object="#{projectBean.project}">
+                    <h:panelGrid columns="2">
+                        <p:selectOneMenu id="newMember" value="#{projectBean.employeeId}" style="width: 125px;">
+                            <f:selectItem itemValue="" itemLabel="Please select" />
+                            <f:selectItems value="#{projectBean.employeesNotMembers}" 
+                                           var="e" itemValue="#{e.id}" itemLabel="#{e.fullName}" />
+                        </p:selectOneMenu>
+                        <p:commandButton value="Add Member" process="newMember,@this" update="form:membersPanel" 
+                                         actionListener="#{projectBean.addMember}" />
+                    </h:panelGrid>
+                </ez:has-role>
             </h:panelGroup>
 
 
@@ -109,47 +109,47 @@
                 <h:outputText value="There is no documents in this project" />
             </h:panelGroup>
 
+            <ez:has-role role="MANAGER" object="#{projectBean.project}">
+                <p:panelGrid style="width: 100%;">
+                    <p:row>
+                        <p:column>
+                            <h:outputText style="font-weight: bold;" value="Add new document" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:panelGrid columns="2">
+                                <h:outputLabel style="font-weight: bold;" value="Title:" />
+                                <p:inputText id="title" value="#{projectBean.pdTitle}" style="width: 450px;" required="true" />
 
+                                <h:outputLabel />
+                                <p:message for="title" />
 
-            <p:panelGrid style="width: 100%;">
-                <p:row>
-                    <p:column>
-                        <h:outputText style="font-weight: bold;" value="Add new document" />
-                    </p:column>
-                </p:row>
-                <p:row>
-                    <p:column>
-                        <h:panelGrid columns="2">
-                            <h:outputLabel style="font-weight: bold;" value="Title:" />
-                            <p:inputText id="title" value="#{projectBean.pdTitle}" style="width: 450px;" required="true" />
+                                <h:outputLabel style="font-weight: bold;" value="Description:" />
+                                <p:inputTextarea id="description" value="#{projectBean.pdDescription}" style="width: 450px;" required="true" />
 
-                            <h:outputLabel />
-                            <p:message for="title" />
+                                <h:outputLabel />
+                                <p:message for="description" />
 
-                            <h:outputLabel style="font-weight: bold;" value="Description:" />
-                            <p:inputTextarea id="description" value="#{projectBean.pdDescription}" style="width: 450px;" required="true" />
+                                <h:outputLabel style="font-weight: bold;" value="File:"  />
+                                <h:inputFile id="uploadedFile" value="#{projectBean.uploadedFile}" 
+                                             required="true"  />
 
-                            <h:outputLabel />
-                            <p:message for="description" />
+                                <h:outputLabel />
+                                <p:message for="uploadedFile" />
+                            </h:panelGrid>
+                        </p:column>
+                    </p:row>
 
-                            <h:outputLabel style="font-weight: bold;" value="File:"  />
-                            <h:inputFile id="uploadedFile" value="#{projectBean.uploadedFile}" 
-                                         required="true"  />
-
-                            <h:outputLabel />
-                            <p:message for="uploadedFile" />
-                        </h:panelGrid>
-                    </p:column>
-                </p:row>
-
-                <p:row>
-                    <p:column>
-                        <h:panelGroup layout="block" styleClass="button-panel">
-                            <p:commandButton value="Upload" ajax="false" action="#{projectBean.addProjectDocument}" />
-                        </h:panelGroup>
-                    </p:column>
-                </p:row>
-            </p:panelGrid>
+                    <p:row>
+                        <p:column>
+                            <h:panelGroup layout="block" styleClass="button-panel">
+                                <p:commandButton value="Upload" ajax="false" action="#{projectBean.addProjectDocument}" />
+                            </h:panelGroup>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </ez:has-role>
 
         </p:panelGrid>
 

@@ -14,7 +14,7 @@ import net.iskandar.examples.project_management.domain.Task;
 import net.iskandar.examples.project_management.jsf.EmployeeBean;
 import net.iskandar.examples.project_management.jsf.ProjectBean;
 import net.iskandar.examples.project_management.jsf.TaskBean;
-import net.iskandar.examples.shared.jsf.breadcrumb.EvaluationContext;
+import net.iskandar.examples.shared.breadcrumb.EvaluationContext;
 
 /**
  *

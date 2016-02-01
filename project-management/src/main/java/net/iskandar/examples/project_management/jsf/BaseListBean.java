@@ -30,22 +30,11 @@ public abstract class BaseListBean<T extends BaseEntity> {
  
     private static final Logger log = LogManager.getLogger(BaseListBean.class);
     private LazyListDataModel lazyModel;
-    private T selectedItem;
 
-    public T getSelectedEmployee() {
-        return selectedItem;
-    }
-
-    public void setSelectedEmployee(T selectedItem) {
-        this.selectedItem = selectedItem;
-    }
 
     @PostConstruct
     public void init() {
         lazyModel = new LazyListDataModel();
-        if (lazyModel instanceof LazyDataModel) {
-            log.debug("lazyModel is OK");
-        }
     }
 
     public LazyListDataModel getLazyModel() {
@@ -91,12 +80,6 @@ public abstract class BaseListBean<T extends BaseEntity> {
             }
             return items;
         }
-
-/*        @Override
-        public List<Employee> load(int first, int pageSize, List<SortMeta> multiSortMeta, Map<String, Object> filters) {
-            log.debug("load2");
-            return new ArrayList<Employee>();
-        }*/
 
     }
     

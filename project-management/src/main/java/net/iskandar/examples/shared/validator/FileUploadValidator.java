@@ -31,7 +31,6 @@ public class FileUploadValidator implements Validator {
             FileUpload fileUpload = (FileUpload) component;
             log.debug("fileUpload.value.class.name=" + fileUpload.getValue().getClass().getName());
         }
-        
     }
 
 }

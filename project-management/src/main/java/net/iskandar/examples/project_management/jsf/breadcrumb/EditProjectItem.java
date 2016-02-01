@@ -6,7 +6,7 @@
 package net.iskandar.examples.project_management.jsf.breadcrumb;
 
 import net.iskandar.examples.project_management.domain.Project;
-import net.iskandar.examples.shared.jsf.breadcrumb.EvaluationContext;
+import net.iskandar.examples.shared.breadcrumb.EvaluationContext;
 
 /**
  *

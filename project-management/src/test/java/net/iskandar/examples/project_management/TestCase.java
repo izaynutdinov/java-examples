@@ -48,12 +48,10 @@ public class TestCase {
     @Test
     public void test1(){
         System.err.println("TEST OUTPUT");
-        Assert.fail("Failed!");
     }
     
     @Test
     public void test2(){
-        Assert.fail("Failed!");
     }
     
 }

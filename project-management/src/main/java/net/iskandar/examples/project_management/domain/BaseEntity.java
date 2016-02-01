@@ -29,7 +29,7 @@ public class BaseEntity {
     public void setId(Integer id) {
         this.id = id;
     }
-    
+
     protected static String shortify(String value){
         if(value == null) return null;
         if(value.length() > 32) {

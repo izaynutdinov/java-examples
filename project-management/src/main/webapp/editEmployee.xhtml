@@ -13,8 +13,8 @@
     <ui:define name="metadata">
         <f:metadata>
             <f:viewParam name="brcmb" value="#{breadCrumbBean.state}" />
-        </f:metadata>        
-    </ui:define>            
+        </f:metadata>
+    </ui:define>
 
     <ui:define name="pm-content">
         <ez:has-role role="ADMIN" placeholder="You are not permitted to see this page">
@@ -31,7 +31,7 @@
                             <p:ajax event="blur" process="login" 
                                     update="loginLabel,login,loginMessage" delay="0" />
                             <f:validateBean />
-                            <f:validator validatorId="login" />
+                            <f:validator binding="#{validatorsBean.loginValidator}" />
                         </p:inputText>                    
                     </p:column>
                     <p:column>
@@ -133,7 +133,7 @@
                         <p:inputText id="email" value="#{employeeBean.newEmail}">
                             <p:ajax event="blur" process="email" update="emailLabel,email,emailMessage" delay="0" />
                             <f:attribute name="employeeId" value="${employeeBean.employeeId}" />                        
-                            <f:validator validatorId="emailExist" />
+                            <f:validator binding="#{validatorsBean.emailValidator}" />
                         </p:inputText>
                     </p:column>
 

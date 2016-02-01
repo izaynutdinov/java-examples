@@ -7,8 +7,8 @@ package net.iskandar.examples.project_management.jsf.breadcrumb;
 
 import java.io.DataInputStream;
 import java.io.IOException;
-import net.iskandar.examples.shared.jsf.breadcrumb.EvaluationContext;
-import net.iskandar.examples.shared.jsf.breadcrumb.Item;
+import net.iskandar.examples.shared.breadcrumb.EvaluationContext;
+import net.iskandar.examples.shared.breadcrumb.Item;
 
 /**
  *

@@ -3,10 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.iskandar.examples.shared.jsf.breadcrumb;
-
-import net.iskandar.examples.project_management.domain.Employee;
-import net.iskandar.examples.project_management.domain.Project;
+package net.iskandar.examples.shared.breadcrumb;
 
 /**
  *

@@ -32,7 +32,7 @@
                     <p:ajax event="blur" process="login" 
                             update="loginLabel,login,loginMessage" delay="0" />
                     <f:validateBean />
-                    <f:validator validatorId="login" />
+                    <f:validator binding="#{validatorsBean.loginValidator}" />
                 </p:inputText>
                 <h:panelGroup style="width: 648px;" layout="block">
                     <p:message id="loginMessage" for="login" />
@@ -68,7 +68,7 @@
                 <p:inputText id="email" value="#{employeeBean.email}" required="true">
                     <p:ajax event="blur" process="email" update="emailLabel,email,emailMessage" delay="0" />
                     <f:validateBean />
-                    <f:validator validatorId="emailExist" />
+                    <f:validator binding="#{validatorsBean.emailValidator}" />
                 </p:inputText>
                 <h:panelGroup style="width: 500px;" layout="block">
                     <p:message id="emailMessage" for="email" />

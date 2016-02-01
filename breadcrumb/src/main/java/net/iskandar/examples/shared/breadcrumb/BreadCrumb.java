@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.iskandar.examples.shared.jsf.breadcrumb;
+package net.iskandar.examples.shared.breadcrumb;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -13,8 +13,6 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
-import javax.faces.component.StateHolder;
-import javax.faces.context.FacesContext;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.logging.log4j.LogManager;
@@ -65,7 +63,7 @@ public class BreadCrumb {
         currentItem = item;
         clearState();
     }
-    
+
     public void removeLast(){
         log.debug("removeLast");
         items.removeLast();
@@ -85,6 +83,16 @@ public class BreadCrumb {
     }
 
     public byte[] saveState(Item toItem) throws IOException {
+        if(toItem != null) {
+            boolean found = false;
+            for(Item item : getItems()){
+                if(item == toItem)
+                    found = true;
+            }
+            if(!found)
+                throw new BreadCrumbException("Item not found!");
+        }
+
         if (stateBuf == null) {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             try {
@@ -117,7 +125,7 @@ public class BreadCrumb {
         }
         return state;
     }
-    
+
     public byte[] getStateBinary(){
         try {
             return saveState((Item) null);
@@ -125,7 +133,7 @@ public class BreadCrumb {
             throw new BreadCrumbException("Error getting state of breadcrumb", ex);
         }
     }
-    
+
     public void setStateBinary(byte[] state){
         loadState(state);
     }
